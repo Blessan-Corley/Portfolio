@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { motion, useMotionValue, useTransform } from "framer-motion";
-// replace icons with your own if needed
+
 import {
   FiCircle,
   FiCode,
@@ -145,7 +145,7 @@ export default function Carousel({
     };
 
   const renderIcon = (item) => {
-    // If item has an image, render the image
+    
     if (item.image) {
       return (
         <div className="h-[40px] w-[40px] rounded-full overflow-hidden bg-gray-700 flex items-center justify-center">
@@ -154,7 +154,7 @@ export default function Carousel({
             alt={item.title}
             className="h-full w-full object-cover"
             onError={(e) => {
-              // Fallback to text icon if image fails to load
+              
               e.target.style.display = 'none';
               e.target.nextElementSibling.style.display = 'flex';
             }}
@@ -166,7 +166,7 @@ export default function Carousel({
       );
     }
     
-    // If item has an emoji icon (string)
+    
     if (typeof item.icon === 'string') {
       return (
         <span className="flex h-[40px] w-[40px] items-center justify-center rounded-full bg-[#060010] text-2xl">
@@ -175,7 +175,7 @@ export default function Carousel({
       );
     }
     
-    // Default React icon component
+    
     return (
       <span className="flex h-[40px] w-[40px] items-center justify-center rounded-full bg-[#060010]">
         {item.icon}
@@ -218,7 +218,7 @@ export default function Carousel({
             -(index - 1) * trackItemOffset,
           ];
           const outputRange = [90, 0, -90];
-          // eslint-disable-next-line react-hooks/rules-of-hooks
+          
           const rotateY = useTransform(x, range, outputRange, { clamp: false });
           return (
             <motion.div

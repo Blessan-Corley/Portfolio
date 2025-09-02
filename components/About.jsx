@@ -1,5 +1,5 @@
 import BlurText from './BlurText';
-import Carousel from './Carousel'; // Back to original
+import Carousel from './Carousel'; 
 import { motion } from 'framer-motion';
 import { TextGenerateEffect } from './TextGenerateEffect';
 

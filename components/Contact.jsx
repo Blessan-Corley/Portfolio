@@ -21,7 +21,7 @@ const ContactSection = () => {
   const [copied, setCopied] = useState('');
   const [isOnline, setIsOnline] = useState(true);
 
-  // Simulate online status animation
+  
   useEffect(() => {
     const interval = setInterval(() => {
       setIsOnline(prev => prev);
@@ -36,7 +36,7 @@ const ContactSection = () => {
   };
 
   const handleResumeDownload = () => {
-    // Update this path to match your resume file location in the public folder
+    
     const resumePath = `${import.meta.env.BASE_URL}/resume/Blessan_resume.pdf`;
     const link = document.createElement('a');
     link.href = resumePath;

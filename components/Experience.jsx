@@ -1,4 +1,4 @@
-// FIXED Experience.jsx
+
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import ExperienceAnimatedBackground from './ExperienceAnimatedBackground';
@@ -74,7 +74,7 @@ const Experience = () => {
   const touchStartYRef = useRef(0);
 
 
-  // Mobile detection
+  
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -84,7 +84,7 @@ const Experience = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Load fonts
+  
   useEffect(() => {
     const link = document.createElement('link');
     link.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap';
@@ -103,7 +103,7 @@ const Experience = () => {
     document.head.appendChild(style);
   }, []);
 
-  // Scroll handler
+  
   useEffect(() => {
     const handleScroll = (e) => {
       if (!isInExperience || isScrollingRef.current) return;
@@ -165,7 +165,7 @@ const Experience = () => {
       }, 700);
     };
 
-    // ✅ define outside of handleScroll
+    
     const handleTouchStart = (e) => {
       touchStartYRef.current = e.touches[0].clientY;
     };
@@ -174,7 +174,7 @@ const Experience = () => {
       document.body.style.overflow = 'hidden';
       window.addEventListener('wheel', handleScroll, { passive: false });
       window.addEventListener('touchmove', handleScroll, { passive: true });
-      window.addEventListener('touchstart', handleTouchStart, { passive: true }); // ✅ added correctly
+      window.addEventListener('touchstart', handleTouchStart, { passive: true }); 
     } else {
       document.body.style.overflow = 'auto';
     }
@@ -182,13 +182,13 @@ const Experience = () => {
     return () => {
       window.removeEventListener('wheel', handleScroll);
       window.removeEventListener('touchmove', handleScroll);
-      window.removeEventListener('touchstart', handleTouchStart); // ✅ cleanup
+      window.removeEventListener('touchstart', handleTouchStart); 
       document.body.style.overflow = 'auto';
     };
   }, [isInExperience, currentIndex, canExitSection]);
 
 
-  // Entry detection
+  
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {

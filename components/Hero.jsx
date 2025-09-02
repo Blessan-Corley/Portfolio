@@ -1,13 +1,13 @@
 import { motion } from "framer-motion";
-// import TypeWriter from "./Typewriter";
+
 import TextType from "./TextType";
 import Aurora from "./Aurora";
 import GradientText from "./GradientText";
-import { HoverBorderGradient } from './HoverBorderGradient'; // Adjust path as needed
+import { HoverBorderGradient } from './HoverBorderGradient'; 
 
 
 
-// Variants for animation
+
 const slideFromLeft = {
     hidden: { x: -100, opacity: 0 },
     visible: {
@@ -105,7 +105,7 @@ const Hero = () => {
                                 fontFamily: "'SF Pro Display', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
                                 fontWeight: 600,
                                 textDecoration: 'none',
-                                color: '#ec4899' // Vibrant magenta/pink
+                                color: '#ec4899' 
                             }}
                             duration={2}
                         >
@@ -121,7 +121,7 @@ const Hero = () => {
                                 fontFamily: "'SF Pro Display', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
                                 fontWeight: 600,
                                 textDecoration: 'none',
-                                color: '#8b5cf6' // Vibrant purple
+                                color: '#8b5cf6' 
                             }}
                             duration={2}
                             clockwise={false}

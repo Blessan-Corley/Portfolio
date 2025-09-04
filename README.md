@@ -51,7 +51,7 @@ A portfolio showcasing my work, skills, and professional journey.
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/Blessan-Corley/blessan-portfolio.git
+   git clone [https://github.com/Blessan-Corley/Portfolio.git]
    cd blessan-portfolio
    ```
 

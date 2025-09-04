@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  overflow-x: hidden;
+  background-color: black;
+  scroll-behavior: smooth;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+/* Override default anchor styling to prevent purple color on buttons */
+a {
+  text-decoration: none;
+  color: inherit; /* This will use the color from the element itself */
+}
+
+a:hover {
+  color: inherit; /* Prevent hover color change */
+}
+
+/* Specific button styling */
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: "Inter, sans-serif";
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  color: white;
+}
+
+button:hover {
+  border-color: #ffffff;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* Hero section specific button overrides */
+#home a {
+  font-family: "Inter, sans-serif" !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+}
+
+/* Blue button styling */
+#home a:first-of-type {
+  color: #60a5fa !important; /* blue-400 */
+  border-color: #3b82f6 !important; /* blue-500 */
+}
+
+#home a:first-of-type:hover {
+  background-color: rgba(59, 130, 246, 0.2) !important; /* blue-500/20 */
+  color: #93c5fd !important; /* blue-300 */
+  border-color: #60a5fa !important; /* blue-400 */
+}
+
+/* Orange button styling */
+#home a:last-of-type {
+  color: #fb923c !important; /* orange-400 */
+  border-color: #f97316 !important; /* orange-500 */
+}
+
+#home a:last-of-type:hover {
+  background-color: rgba(249, 115, 22, 0.2) !important; /* orange-500/20 */
+  color: #fdba74 !important; /* orange-300 */
+  border-color: #fb923c !important; /* orange-400 */
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  
+  /* Keep hero buttons white even in light mode */
+  #home a {
+    color: white !important;
+  }
+  
+  #home a:hover {
+    color: black !important;
+  }
+  
+  button {
+    background-color: #f9f9f9;
+  }
+}

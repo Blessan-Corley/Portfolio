@@ -15,7 +15,6 @@ A portfolio showcasing my work, skills, and professional journey.
 - **Fast Performance** - Optimized loading times with Vite
 - **Smooth Animations** - Enhanced user interactions
 - **Dynamic Components** - Reusable and maintainable code structure
-- **SEO Optimized** - Better search engine visibility
 - **Accessible** - WCAG compliant for all users
 
 ## 🛠️ Tech Stack
@@ -35,10 +34,6 @@ A portfolio showcasing my work, skills, and professional journey.
 - **ESLint** - Code linting for consistent code quality
 - **PostCSS** - Tool for transforming CSS with JavaScript
 - **Autoprefixer** - Automatic vendor prefix handling
-
-### Deployment & Hosting
-- **GitHub Pages** - Static site hosting
-- **GitHub Actions** - Automated deployment pipeline
 
 ## 📦 Installation & Setup
 
@@ -78,38 +73,6 @@ A portfolio showcasing my work, skills, and professional journey.
 - `npm run build` - Build production-ready application
 - `npm run preview` - Preview production build locally
 - `npm run lint` - Run ESLint for code quality checks
-
-## 🏗️ Project Structure
-
-```
-blessan-portfolio/
-├── public/                 # Static assets
-│   ├── favicon.ico
-│   └── images/            # Image assets
-├── src/                   # Source code
-│   ├── components/        # Reusable React components
-│   │   ├── Header/        # Navigation component
-│   │   ├── Hero/          # Landing section
-│   │   ├── About/         # About me section
-│   │   ├── Projects/      # Portfolio projects
-│   │   ├── Skills/        # Technical skills
-│   │   ├── Experience/    # Work experience
-│   │   ├── Contact/       # Contact form
-│   │   └── Footer/        # Footer component
-│   ├── assets/           # Static assets (images, icons)
-│   ├── hooks/            # Custom React hooks
-│   ├── utils/            # Utility functions
-│   ├── styles/           # Global styles and Tailwind config
-│   ├── App.jsx           # Main application component
-│   ├── main.jsx          # Application entry point
-│   └── index.css         # Global CSS and Tailwind imports
-├── .gitignore            # Git ignore rules
-├── package.json          # Dependencies and scripts
-├── vite.config.js        # Vite configuration
-├── tailwind.config.js    # Tailwind CSS configuration
-├── postcss.config.js     # PostCSS configuration
-└── README.md             # Project documentation
-```
 
 ## 🎨 Components Overview
 
@@ -186,16 +149,6 @@ blessan-portfolio/
 ### Tailwind CSS
 The project uses Tailwind CSS for styling. Configuration can be found in `tailwind.config.js`:
 
-
-## 🚀 Deployment
-
-### GitHub Pages
-
-This project is configured for automatic deployment to GitHub Pages using GitHub Actions.
-
-1. **Enable GitHub Pages** in repository settings
-2. **Set source** to GitHub Actions
-3. **Push to main branch** - Automatic deployment triggers
 
 ### Manual Build
 

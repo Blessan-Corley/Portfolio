@@ -20,9 +20,7 @@ import {
 } from 'react-icons/fi';
 import SkillsPanel from './SkillsPanel';
 
-
 const skillsConfig = {
-  
   mainSkills: [
     {
       icon: <FiCode />,
@@ -61,8 +59,6 @@ const skillsConfig = {
       color: '#ffaa00'
     },
   ],
-
-  
   layout: {
     maxCardsPerRow: 3, 
     cardHeight: '400px',
@@ -70,8 +66,6 @@ const skillsConfig = {
     gap: '20px', 
     maxCardWidth: '350px', 
   },
-
-  
   animation: {
     expandRatio: 2.5,
     transitionDuration: 600,
@@ -80,11 +74,10 @@ const skillsConfig = {
 };
 
 const SkillsSection = () => {
-  const [windowWidth, setWindowWidth] = useState(1200);
-  const [isMobile, setIsMobile] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
   const { mainSkills, layout, animation } = skillsConfig;
 
-  
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
@@ -99,26 +92,10 @@ const SkillsSection = () => {
     }
   }, []);
 
-  
   useEffect(() => {
-    const link = document.createElement('link');
-    link.href = 'https:
-    link.rel = 'stylesheet';
-    document.head.appendChild(link);
-
-    const style = document.createElement('style');
-    style.textContent = `
-      @font-face {
-        font-family: 'SF Pro Display';
-        src: url('${import.meta.env.BASE_URL}fonts/SF-Pro-Display-Medium.otf') format('opentype');
-        font-weight: 500;
-        font-display: swap;
-      }
-    `;
-    document.head.appendChild(style);
+    // Removed font loading - better to handle in global CSS
   }, []);
 
-  
   const FloatingParticle = ({ delay = 0, startX = 0, startY = 0, color = '#00ffff', size = 'small' }) => {
     const sizeMap = {
       small: 'w-1.5 h-1.5',
@@ -154,7 +131,6 @@ const SkillsSection = () => {
     );
   };
 
-  
   const BackgroundIcon = ({ delay = 0, startX = 0, startY = 0, icon, color = '#00ffff' }) => (
     <motion.div
       className="absolute pointer-events-none text-4xl opacity-10"
@@ -177,7 +153,6 @@ const SkillsSection = () => {
     </motion.div>
   );
 
-  
   const CircuitPattern = ({ delay = 0, startX = 0, startY = 0, color = '#00ffff' }) => (
     <motion.div
       className="absolute pointer-events-none opacity-15"
@@ -206,19 +181,22 @@ const SkillsSection = () => {
     </motion.div>
   );
 
-  
   const particles = [];
   const backgroundIcons = [];
   const circuitPatterns = [];
 
-  
   const techIcons = [
     <FiCode />, <FiDatabase />, <FiGitBranch />, <FiSettings />, <FiBarChart2 />,
     <FiCpu />, <FiServer />, <FiMonitor />, <FiHardDrive />, <FiWifi />, <FiLayers />,
     <FiCloud />, <FiShield />, <FiTool />, <FiTarget />
   ];
 
-  for (let i = 0; i < 25; i++) {
+  // Limit animated elements for better performance
+  const particleCount = Math.min(15, Math.floor(windowWidth / 50));
+  const iconCount = Math.min(10, Math.floor(windowWidth / 70));
+  const circuitCount = Math.min(8, Math.floor(windowWidth / 80));
+
+  for (let i = 0; i < particleCount; i++) {
     const skill = mainSkills[i % mainSkills.length];
     particles.push({
       delay: i * 1.2,
@@ -229,7 +207,7 @@ const SkillsSection = () => {
     });
   }
 
-  for (let i = 0; i < 15; i++) {
+  for (let i = 0; i < iconCount; i++) {
     const skill = mainSkills[i % mainSkills.length];
     backgroundIcons.push({
       delay: i * 3,
@@ -240,8 +218,7 @@ const SkillsSection = () => {
     });
   }
 
-  
-  for (let i = 0; i < 12; i++) {
+  for (let i = 0; i < circuitCount; i++) {
     const skill = mainSkills[i % mainSkills.length];
     circuitPatterns.push({
       delay: i * 4,
@@ -251,16 +228,13 @@ const SkillsSection = () => {
     });
   }
 
-  
   const getLayoutConfig = () => {
     if (isMobile) {
-      
       return {
         skillsPerRow: 1,
         rows: mainSkills.map(skill => [skill])
       };
     } else if (windowWidth < 1024) {
-      
       const rows = [];
       for (let i = 0; i < mainSkills.length; i += 2) {
         rows.push(mainSkills.slice(i, i + 2));
@@ -270,7 +244,6 @@ const SkillsSection = () => {
         rows: rows
       };
     } else {
-      
       const maxPerRow = layout.maxCardsPerRow;
       const rows = [];
 
@@ -451,7 +424,7 @@ const SkillsSection = () => {
         />
       </div>
 
-      {/* Content - MATCHING EXPERIENCE SECTION EXACTLY */}
+      {/* Content */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -481,7 +454,7 @@ const SkillsSection = () => {
         </h2>
       </motion.div>
 
-      {/* Skills Container - EXACTLY MATCHING ABOUT SECTION STRUCTURE */}
+      {/* Skills Container */}
       <div className="max-w-7xl mx-auto">
         <div className="skills-container space-y-6">
           {layoutConfig.rows.map((skills, rowIndex) => (

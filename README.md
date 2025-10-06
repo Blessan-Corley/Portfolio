@@ -15,6 +15,7 @@ A portfolio showcasing my work, skills, and professional journey.
 - **Fast Performance** - Optimized loading times with Vite
 - **Smooth Animations** - Enhanced user interactions
 - **Dynamic Components** - Reusable and maintainable code structure
+- **SEO Optimized** - Better search engine visibility
 - **Accessible** - WCAG compliant for all users
 
 ## 🛠️ Tech Stack
@@ -35,6 +36,10 @@ A portfolio showcasing my work, skills, and professional journey.
 - **PostCSS** - Tool for transforming CSS with JavaScript
 - **Autoprefixer** - Automatic vendor prefix handling
 
+### Deployment & Hosting
+- **GitHub Pages** - Static site hosting
+- **GitHub Actions** - Automated deployment pipeline
+
 ## 📦 Installation & Setup
 
 ### Prerequisites
@@ -46,7 +51,7 @@ A portfolio showcasing my work, skills, and professional journey.
 
 1. **Clone the repository**
    ```bash
-   git clone [https://github.com/Blessan-Corley/Portfolio.git]
+   git clone https://github.com/Blessan-Corley/blessan-portfolio.git
    cd blessan-portfolio
    ```
 
@@ -74,11 +79,123 @@ A portfolio showcasing my work, skills, and professional journey.
 - `npm run preview` - Preview production build locally
 - `npm run lint` - Run ESLint for code quality checks
 
+## 🏗️ Project Structure
+
+```
+blessan-portfolio/
+├── public/                 # Static assets
+│   ├── favicon.ico
+│   └── images/            # Image assets
+├── src/                   # Source code
+│   ├── components/        # Reusable React components
+│   │   ├── Header/        # Navigation component
+│   │   ├── Hero/          # Landing section
+│   │   ├── About/         # About me section
+│   │   ├── Projects/      # Portfolio projects
+│   │   ├── Skills/        # Technical skills
+│   │   ├── Experience/    # Work experience
+│   │   ├── Contact/       # Contact form
+│   │   └── Footer/        # Footer component
+│   ├── assets/           # Static assets (images, icons)
+│   ├── hooks/            # Custom React hooks
+│   ├── utils/            # Utility functions
+│   ├── styles/           # Global styles and Tailwind config
+│   ├── App.jsx           # Main application component
+│   ├── main.jsx          # Application entry point
+│   └── index.css         # Global CSS and Tailwind imports
+├── .gitignore            # Git ignore rules
+├── package.json          # Dependencies and scripts
+├── vite.config.js        # Vite configuration
+├── tailwind.config.js    # Tailwind CSS configuration
+├── postcss.config.js     # PostCSS configuration
+└── README.md             # Project documentation
+```
+
+## 🎨 Components Overview
+
+### Core Components
+
+#### 1. **Header/Navigation**
+- Responsive navigation bar
+- Smooth scroll to sections
+- Mobile-friendly hamburger menu
+- Active section highlighting
+
+#### 2. **Hero Section**
+- Eye-catching introduction
+- Animated text effects
+- Call-to-action buttons
+- Professional headshot
+
+#### 3. **About Section**
+- Personal introduction
+- Professional background
+- Skills overview
+- Downloadable resume
+
+#### 4. **Projects Portfolio**
+- Interactive project cards
+- Technology stack display
+- Live demo and code links
+- Responsive grid layout
+
+#### 5. **Skills Section**
+- Technical skills visualization
+- Proficiency indicators
+- Technology icons
+- Categorized skill sets
+
+#### 6. **Experience Timeline**
+- Professional experience
+- Education background
+- Achievement highlights
+- Interactive timeline
+
+#### 7. **Contact Section**
+- Contact form with validation
+- Social media links
+- Professional email
+- Location information
+
+### Component Features
+
+- **Modular Architecture** - Each component is self-contained and reusable
+- **Props-driven** - Configurable components for easy customization
+- **Responsive Design** - All components adapt to different screen sizes
+- **Accessible** - ARIA labels and semantic HTML for screen readers
+- **Performance Optimized** - Lazy loading and code splitting where applicable
+
+## 🎯 Animations & Interactions
+
+- **Smooth Scrolling** - Enhanced navigation experience
+- **Fade-in Effects** - Progressive content revelation
+- **Hover Animations** - Interactive element feedback
+- **Typing Animation** - Dynamic text in hero section
+- **Parallax Effects** - Subtle background movements
+- **Loading Animations** - Smooth content transitions
+
+## 📱 Responsive Design
+
+- **Mobile First** - Optimized for mobile devices
+- **Tablet Compatible** - Perfect layout for medium screens
+- **Desktop Enhanced** - Full-featured desktop experience
+- **Cross-browser Compatible** - Works across all modern browsers
+
 ## 🔧 Configuration
 
 ### Tailwind CSS
 The project uses Tailwind CSS for styling. Configuration can be found in `tailwind.config.js`:
 
+
+## 🚀 Deployment
+
+### GitHub Pages
+
+This project is configured for automatic deployment to GitHub Pages using GitHub Actions.
+
+1. **Enable GitHub Pages** in repository settings
+2. **Set source** to GitHub Actions
+3. **Push to main branch** - Automatic deployment triggers
 
 ### Manual Build
 

@@ -1,19 +1,25 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
-
 
 export default defineConfig(({ mode }) => {
   const isProd = mode === 'production'
 
   return {
     plugins: [
-      tailwindcss(),
       react({
-        jsx: 'automatic'
-      })
+        jsx: 'automatic',
+      }),
     ],
-    base: isProd ? '/blessan-portfolio/' : '/',
-    
+    base: isProd ? './' : '/', // use relative paths in production
+    build: {
+      chunkSizeWarningLimit: 600, // optional, avoids big chunk warnings
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules')) return 'vendor';
+          },
+        },
+      },
+    },
   }
 })

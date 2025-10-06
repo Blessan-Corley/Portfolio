@@ -4,7 +4,7 @@ import TextType from "./TextType";
 import Aurora from "./Aurora";
 import GradientText from "./GradientText";
 import { HoverBorderGradient } from './HoverBorderGradient'; 
-
+import profileImage from '/images/Blessan_profile.jpg';
 
 
 
@@ -141,7 +141,7 @@ const Hero = () => {
                 >
                     <div className="relative">
                         <img
-                            src="/images/Blessan_profile.jpg"
+                            src={profileImage}
                             alt="Blessan Corley"
                             className="w-80 h-80 md:w-96 md:h-96 lg:w-[400px] lg:h-[400px] object-cover object-center shadow-2xl rounded-full"
                             style={{

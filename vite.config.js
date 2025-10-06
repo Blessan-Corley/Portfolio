@@ -1,18 +1,18 @@
+// vite.config.js
+
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 export default defineConfig(({ mode }) => {
-  const isProd = mode === 'production'
-
   return {
     plugins: [
       react({
         jsx: 'automatic',
       }),
     ],
-    base: isProd ? './' : '/', // use relative paths in production
+    base: '/', // ✅ CORRECTED LINE
     build: {
-      chunkSizeWarningLimit: 600, // optional, avoids big chunk warnings
+      chunkSizeWarningLimit: 600,
       rollupOptions: {
         output: {
           manualChunks(id) {

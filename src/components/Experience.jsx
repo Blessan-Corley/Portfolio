@@ -8,60 +8,55 @@ const experiences = [
   {
     id: 1,
     company: "Kalaignar Karunanidhi Institute of Technology",
-    role: "AI&DS Student",
+    role: "AI & DS Student",
     duration: "2023 – 2027",
     period: "2023-27",
     description: [
-      "Pursuing Bachelor's degree in Artificial Intelligence & Data Science.",
-      "Specialized coursework in programming, algorithms.",
-      "Strong foundation in Data Structures & Algorithms using Python.",
-      "Focus on Full Stack Development with modern web technologies.",
-      "Active participation in coding competitions and technical events."
+      "Studying AI & Data Science and surviving finals week.",
+      "Practicing DSA with Python—recursion is finally less scary.",
+      "Building projects to see if they actually work outside localhost.",
+      "Attending workshops and collecting tech swag (because why not?)."
     ]
   },
   {
     id: 2,
     company: "Self-Directed Learning",
     role: "Full Stack Developer",
-    duration: "2025 – Present",
-    period: "2025-Present",
+    duration: "2024 – Present",
+    period: "2024-Present",
     description: [
-      "Built projects ranging from games to full-scale web applications.",
-      "Strong knowledge in React, Next.js, Node.js, and various database technologies.",
-      "Implemented real-time features using WebSocket and Server-Sent Events.",
-      "Developed Progressive Web Apps with offline capabilities.",
-      "Experience with MongoDB, PostgreSQL, Firebase, and Redis."
+      "From 'Hello World' to full-stack apps—leveling up.",
+      "Mastered debugging, Stack Overflow, and actual understanding.",
+      "Built games, chat apps, and random experiments.",
+      "Learning deployment and why 'works on my machine' is not enough."
     ]
   },
   {
     id: 3,
     company: "Cloud Technologies",
-    role: "Aspiring Cloud Developer",
-    duration: "2026 – Present",
-    period: "2026-Present",
+    role: "AWS Explorer",
+    duration: "2025 – Present",
+    period: "2025-Present",
     description: [
-      "Currently learning Amazon Web Services (AWS) for scalable deployments.",
-      "Exploring cloud computing concepts and serverless architectures.",
-      "Understanding containerization with Docker and orchestration.",
-      "Learning Infrastructure as Code (IaC) principles.",
-      "Preparing for AWS certification to validate cloud expertise."
+      "Exploring AWS and realizing 'the cloud' is someone else’s server.",
+      "Experimenting with Docker, Kubernetes, and avoiding $10k bills.",
+      "Applying cloud solutions in personal projects and learning fast."
     ]
   },
   {
     id: 4,
-    company: "Industry Ready",
-    role: "Seeking Opportunities",
+    company: "Next Chapter",
+    role: "Looking for Opportunities",
     duration: "2026 – Future",
     period: "2026+",
     description: [
-      "Looking for full-time opportunities as a Full Stack Developer.",
-      "Open to internships and entry-level positions in tech companies.",
-      "Eager to contribute to innovative projects and learn from industry experts.",
-      "Ready to apply technical skills in real-world business solutions.",
-      "Passionate about building scalable and user-friendly applications."
+      "Ready to contribute clean, maintainable code (with minimal coffee spills).",
+      "Excited to learn from experienced developers and grow.",
+      "Open to tackling challenging projects and actually making them work."
     ]
   }
 ];
+
 
 const Experience = () => {
   const containerRef = useRef(null);

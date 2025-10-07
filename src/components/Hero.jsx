@@ -87,11 +87,10 @@ const Hero = () => {
                         {/* <TypeWriter text="Software Engineer at BNP Paribas" /> */}
                     </div>
 
-                    <p className="text-gray-300 text-sm md:text-base leading-relaxed max-w-lg font-medium"
-                        style={{ fontFamily: "Inter, sans-serif", fontWeight: 500, letterSpacing: "0.025em" }}>
-                        3rd Year AI&DS student with a passion for solving problems through code.
-                        Python & DSA enthusiast • Building diverse applications • Learning Full Stack Development.
-                        Turning ideas into reality using React, Next.js, and Node.js.
+                    <p className="text-gray-300 text-sm md:text-base leading-relaxed max-w-lg font-medium">
+                    3rd-year AI&DS student who actually enjoys solving LeetCode problems (okay, maybe not all of them).
+                    Building stuff with Python, React, and whatever shiny new framework catches my eye.
+                    Currently on a quest to understand AWS without breaking the bank.
                     </p>
 
                     {/* Aceternity UI Animated Buttons */}
@@ -109,7 +108,7 @@ const Hero = () => {
                             }}
                             duration={2}
                         >
-                            Get In Touch
+                            Let's Talk Code
                         </HoverBorderGradient>
 
                         <HoverBorderGradient
@@ -126,7 +125,7 @@ const Hero = () => {
                             duration={2}
                             clockwise={false}
                         >
-                            View My Work
+                            See What I've Built
                         </HoverBorderGradient>
                     </div>
 

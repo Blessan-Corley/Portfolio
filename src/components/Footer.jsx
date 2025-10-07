@@ -76,7 +76,7 @@ const Footer = () => {
             <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-20 py-16">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
 
-                    {/* Enhanced Brand Section */}
+                    {/* Brand Section */}
                     <div className="lg:col-span-2">
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
@@ -93,8 +93,8 @@ const Footer = () => {
                                 </div>
                             </div>
                             <p className="text-white/70 leading-relaxed mb-6 max-w-md">
-                                Passionate software engineer crafting digital experiences with clean code and innovative solutions.
-                                Always learning, always building something amazing.
+                                Building digital experiences with code. Sometimes it works on the first try, 
+                                but usually after a few cups of coffee and Stack Overflow visits.
                             </p>
 
                             {/* Status indicator */}
@@ -108,7 +108,7 @@ const Footer = () => {
                                         }}
                                         transition={{ duration: 2, repeat: Infinity }}
                                     />
-                                    <span className="text-emerald-400 text-sm font-medium">Available for work</span>
+                                    <span className="text-emerald-400 text-sm font-medium">Open to opportunities</span>
                                 </div>
                             </div>
 
@@ -119,7 +119,7 @@ const Footer = () => {
                         </motion.div>
                     </div>
 
-                    {/* Enhanced Quick Links */}
+                    {/* Quick Links */}
                     <div>
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
@@ -148,7 +148,7 @@ const Footer = () => {
                         </motion.div>
                     </div>
 
-                    {/* Enhanced Connect Section */}
+                    {/* Connect Section */}
                     <div>
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
@@ -158,7 +158,7 @@ const Footer = () => {
                         >
                             <h4 className="font-semibold mb-6 text-white/90 text-lg">Let's Connect</h4>
 
-                            {/* Enhanced Social Links - 2 rows, 4 icons each */}
+                            {/* Social Links - 2 rows, 4 icons each */}
                             <div className="grid grid-cols-4 gap-3 mb-6">
                                 {socialLinks.map((social, index) => (
                                     <motion.a
@@ -190,7 +190,7 @@ const Footer = () => {
                                 ))}
                             </div>
 
-                            {/* Enhanced Quick Actions */}
+                            {/* Quick Actions */}
                             <div className="space-y-3">
                                 <motion.a
                                     href="mailto:blessancorley@gmail.com"
@@ -212,7 +212,7 @@ const Footer = () => {
                                 </motion.a>
 
                                 <motion.a
-                                    href={`${import.meta.env.BASE_URL}/resume/Blessan_resume.pdf`}
+                                    href="/resume/Blessan_resume.pdf"
                                     download
                                     className="flex items-center gap-3 p-3 rounded-lg text-white/70 hover:text-white text-sm transition-all duration-300 group"
                                     style={{
@@ -228,7 +228,7 @@ const Footer = () => {
                                 >
                                     <FiDownload className="w-4 h-4 group-hover:animate-bounce" />
                                     Download Resume
-                                    <span className="w-4 h-4 flex items-center justify-center ml-auto text-xs">📄</span>
+                                    <span className="w-4 h-4 flex items-center justify-center ml-auto text-xs">PDF</span>
                                 </motion.a>
                             </div>
                         </motion.div>
@@ -236,12 +236,12 @@ const Footer = () => {
                 </div>
             </div>
 
-            {/* Enhanced Bottom Bar */}
+            {/* Bottom Bar */}
             <div className="relative z-10 border-t border-white/10">
                 <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20 py-8">
                     <div className="flex flex-col md:flex-row items-center justify-between gap-6">
 
-                        {/* Enhanced Copyright */}
+                        {/* Copyright */}
                         <motion.div
                             initial={{ opacity: 0 }}
                             whileInView={{ opacity: 1 }}
@@ -256,7 +256,7 @@ const Footer = () => {
                             >
                                 <FiHeart className="w-4 h-4 text-red-400" />
                             </motion.div>
-                            <span>and lots of</span>
+                            <span>and</span>
                             <motion.div
                                 animate={{ rotate: [0, 15, -15, 0] }}
                                 transition={{ duration: 2, repeat: Infinity }}
@@ -266,7 +266,7 @@ const Footer = () => {
                             <span>by Blessan Corley</span>
                         </motion.div>
 
-                        {/* Enhanced Tech Stack */}
+                        {/* Tech Stack */}
                         <motion.div
                             initial={{ opacity: 0 }}
                             whileInView={{ opacity: 1 }}
@@ -280,10 +280,10 @@ const Footer = () => {
                             <span>•</span>
                             <span className="hover:text-white/70 transition-colors cursor-default">Tailwind CSS</span>
                             <span>•</span>
-                            <span className="hover:text-white/70 transition-colors cursor-default">Vercel</span>
+                            <span className="hover:text-white/70 transition-colors cursor-default">Vite</span>
                         </motion.div>
 
-                        {/* Enhanced Back to Top */}
+                        {/* Back to Top */}
                         <motion.button
                             onClick={scrollToTop}
                             className="w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group relative"

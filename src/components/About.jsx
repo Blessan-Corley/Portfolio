@@ -1,13 +1,15 @@
-import BlurText from './BlurText';
-import Carousel from './Carousel'; 
 import { motion } from 'framer-motion';
 import { TextGenerateEffect } from './TextGenerateEffect';
+import Carousel from './Carousel';
+import {
+  Code2,
+  Boxes,
+  Layers,
+  CloudCog,
+  GraduationCap,
+} from "lucide-react";
 
 const About = () => {
-  const handleAnimationComplete = () => {
-    console.log("Blur animation done");
-  };
-
   return (
     <section
       id="about"
@@ -32,7 +34,7 @@ const About = () => {
       </div>
 
       <div className="relative z-10">
-        {/* Header with Mobile-Friendly TextGenerateEffect */}
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -69,14 +71,14 @@ const About = () => {
             </div>
           </div>
           <p className="text-white/60 max-w-2xl mx-auto text-lg px-4">
-            Get to know the person behind the code
+            The story behind the semicolons
           </p>
         </motion.div>
 
         {/* Main Content */}
         <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row items-start justify-between gap-12">
 
-          {/* Left Side - Clean Highlighted Bio Text with Gradients */}
+          {/* Left Side - Bio Text */}
           <motion.div
             className="lg:w-1/2 w-full flex flex-col justify-start"
             initial={{ opacity: 0, x: -30 }}
@@ -85,29 +87,29 @@ const About = () => {
             transition={{ duration: 0.8 }}
           >
             {/* First Paragraph with BNP Paribas Gradient */}
-            <div className="text-lg md:text-xl leading-relaxed font-semibold font-[Inter,sans-serif] text-gray-200 mb-6">
-              <span>Hi, I'm Blessan, a passionate </span>
-              <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent font-bold">
-                AI&DS Student
-              </span>
-              <span> at Kalaignar Karunanidhi Institute of Technology, specializing in Full Stack Development and cloud technologies.</span>
-            </div>
+          <div className="text-lg md:text-xl leading-relaxed font-semibold font-[Inter,sans-serif] text-gray-200 mb-6">
+            <span>Hey, I’m Blessan, an </span>
+            <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent font-bold">
+              AI & Data Science student
+            </span>
+            <span> at Kalaignar Karunanidhi Institute of Technology — I just like building stuff that doesn’t crash on demo day.</span>
+          </div>
 
-            {/* Second Paragraph with Python/SQL and DevOps Gradients */}
-            <div className="text-lg md:text-xl leading-relaxed font-medium font-[Inter,sans-serif] text-gray-200 mb-6">
-              <span>I'm passionate about creating solutions that make a difference. Currently building my expertise in </span>
-              <span className="bg-gradient-to-r from-green-400 via-emerald-500 to-teal-500 bg-clip-text text-transparent font-bold">
-                Python DSA & Full Stack Development
-              </span>
-              <span>. Through various projects, I'm learning to craft applications with </span>
-              <span className="bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 bg-clip-text text-transparent font-bold">
-                React, Next.js & Cloud Technologies
-              </span>
-              <span>. Always eager to learn and grow!</span>
-            </div>
+          {/* Second Paragraph with Python/SQL and DevOps Gradients */}
+          <div className="text-lg md:text-xl leading-relaxed font-medium font-[Inter,sans-serif] text-gray-200 mb-6">
+            <span>I’m into </span>
+            <span className="bg-gradient-to-r from-green-400 via-emerald-500 to-teal-500 bg-clip-text text-transparent font-bold">
+              Full Stack Development, Python DSA,
+            </span>
+            <span> and all things </span>
+            <span className="bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 bg-clip-text text-transparent font-bold">
+              Cloud
+            </span>
+            <span> — basically anything that keeps me curious (and mildly sleep-deprived). Still learning, still experimenting, and still pretending I know what “production ready” means.</span>
+          </div>
           </motion.div>
 
-          {/* Right Side - Carousel with fixed responsive width */}
+          {/* Right Side - Carousel with WORKING Icons */}
           <motion.div
             className="lg:w-1/2 w-full flex items-start justify-center lg:justify-end lg:pr-0"
             initial={{ opacity: 0, x: 30 }}
@@ -128,34 +130,34 @@ const About = () => {
                 items={[
                   {
                     title: "Python & DSA Enthusiast",
-                    description: "Building strong foundation in Data Structures & Algorithms with consistent problem-solving practice.",
+                    description: "Solving problems one algorithm at a time. Sometimes elegantly, sometimes with brute force.",
                     id: 1,
-                    icon: "🐍",
-                    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1024px-Python-logo-notext.svg.png"
+                    icon: (props) => <Code2 size={16} strokeWidth={2} color="white" {...props} />,
+                    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1024px-Python-logo-notext.svg.png",
                   },
                   {
-                    title: "Diverse Applications",
-                    description: "Developed various projects from games to full-stack platforms, exploring different technologies.",
+                    title: "Building Stuff",
+                    description: "From games to full-stack platforms. If it compiles (eventually), I've probably built it.",
                     id: 2,
-                    icon: "💼",
+                    icon: (props) => <Boxes size={16} strokeWidth={2} color="white" {...props} />,
                   },
                   {
-                    title: "Full Stack Learner",
-                    description: "Growing my skills in end-to-end development with React, Next.js, Node.js, and databases.",
+                    title: "Full Stack Explorer",
+                    description: "React, Next.js, Node.js, databases - learning the entire stack one Stack Overflow answer at a time.",
                     id: 3,
-                    icon: "🔄",
+                    icon: (props) => <Layers size={16} strokeWidth={2} color="white" {...props} />,
                   },
                   {
-                    title: "Cloud Explorer",
-                    description: "Currently learning AWS and cloud computing to build scalable applications.",
+                    title: "Cloud Curious",
+                    description: "Diving into AWS. Turns out 'the cloud' is just someone else's computer, but it's pretty cool.",
                     id: 4,
-                    icon: "⚙️",
+                    icon: (props) => <CloudCog size={16} strokeWidth={2} color="white" {...props} />,
                   },
                   {
                     title: "KIT Student",
-                    description: "3rd Year AI&DS student at Kalaignar Karunanidhi Institute of Technology.",
+                    description: "3rd Year AI&DS at Kalaignar Karunanidhi Institute of Technology. Learning, building, breaking, fixing.",
                     id: 5,
-                    icon: "🎓",
+                    icon: (props) => <GraduationCap size={16} strokeWidth={2} color="white" {...props} />,
                   },
                 ]}
               />

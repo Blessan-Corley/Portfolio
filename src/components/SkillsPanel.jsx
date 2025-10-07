@@ -31,7 +31,7 @@ const SkillsPanel = ({ icon, title, skills, color, expandRatio = 2.5, transition
       'MongoDB': 'https://www.mongodb.com/',
       'PostgreSQL': 'https://www.postgresql.org/',
       'MySQL': 'https://www.mysql.com/',
-      'Firebase': 'https://firebase.google.com/',
+      'Firestore': 'https://firebase.google.com/',
       'Redis': 'https://redis.io/',
       
       
@@ -131,7 +131,7 @@ const SkillsPanel = ({ icon, title, skills, color, expandRatio = 2.5, transition
                       boxShadow: `0 0 6px ${color}60`
                     }}
                   />
-                  <span className="font-medium leading-tight break-words group-hover:underline">{skill}</span>
+                  <span className="font-medium leading-tight break-words">{skill}</span>
                 </a>
               ))}
             </div>
@@ -304,7 +304,7 @@ const SkillsPanel = ({ icon, title, skills, color, expandRatio = 2.5, transition
                     boxShadow: `0 0 6px ${color}60`
                   }}
                 />
-                <span className="font-medium leading-tight break-words group-hover:underline">{skill}</span>
+                <span className="font-medium leading-tight break-words">{skill}</span>
               </motion.a>
             ))}
             </div>

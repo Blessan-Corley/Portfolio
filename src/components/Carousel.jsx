@@ -14,31 +14,31 @@ const DEFAULT_ITEMS = [
     title: "Text Animations",
     description: "Cool text animations for your projects.",
     id: 1,
-    icon: <FiFileText className="h-[16px] w-[16px] text-white" />,
+    icon: FiFileText,
   },
   {
     title: "Animations",
     description: "Smooth animations for your projects.",
     id: 2,
-    icon: <FiCircle className="h-[16px] w-[16px] text-white" />,
+    icon: FiCircle,
   },
   {
     title: "Components",
     description: "Reusable components for your projects.",
     id: 3,
-    icon: <FiLayers className="h-[16px] w-[16px] text-white" />,
+    icon: FiLayers,
   },
   {
     title: "Backgrounds",
     description: "Beautiful backgrounds and patterns for your projects.",
     id: 4,
-    icon: <FiLayout className="h-[16px] w-[16px] text-white" />,
+    icon: FiLayout,
   },
   {
     title: "Common UI",
     description: "Common UI components are coming soon!",
     id: 5,
-    icon: <FiCode className="h-[16px] w-[16px] text-white" />,
+    icon: FiCode,
   },
 ];
 
@@ -145,7 +145,7 @@ export default function Carousel({
     };
 
   const renderIcon = (item) => {
-    
+    // Handle image icons
     if (item.image) {
       return (
         <div className="h-[40px] w-[40px] rounded-full overflow-hidden bg-gray-700 flex items-center justify-center">
@@ -154,7 +154,6 @@ export default function Carousel({
             alt={item.title}
             className="h-full w-full object-cover"
             onError={(e) => {
-              
               e.target.style.display = 'none';
               e.target.nextElementSibling.style.display = 'flex';
             }}
@@ -166,7 +165,7 @@ export default function Carousel({
       );
     }
     
-    
+    // Handle string/emoji icons
     if (typeof item.icon === 'string') {
       return (
         <span className="flex h-[40px] w-[40px] items-center justify-center rounded-full bg-[#060010] text-2xl">
@@ -175,12 +174,18 @@ export default function Carousel({
       );
     }
     
+    // Handle React component icons - FIXED VERSION
+    if (typeof item.icon === 'function') {
+      const IconComponent = item.icon;
+      return (
+        <span className="flex h-[40px] w-[40px] items-center justify-center rounded-full bg-[#060010]">
+          <IconComponent className="h-[16px] w-[16px] text-white" />
+        </span>
+      );
+    }
     
-    return (
-      <span className="flex h-[40px] w-[40px] items-center justify-center rounded-full bg-[#060010]">
-        {item.icon}
-      </span>
-    );
+    // Fallback
+    return null;
   };
 
   return (

@@ -185,8 +185,8 @@ const projectsData = [
       "Keyboard and touch controls for all devices"
     ],
     links: {
-      github: "#",
-      demo: "#"
+      github: "https://github.com/Blessan-Corley/Reverse-Mate",
+      demo: "reverse-mate.vercel.app"
     },
     color: "#3b82f6",
     gradient: "from-blue-500 to-indigo-600"
@@ -243,8 +243,8 @@ const projectsData = [
       "Instructions modal with game strategies"
     ],
     links: {
-      github: "#",
-      demo: "#"
+      github: "https://github.com/Blessan-Corley/Lights-Out",
+      demo: "https://blessan-corley.github.io/Lights-Out/"
     },
     color: "#f59e0b",
     gradient: "from-amber-500 to-orange-600"
@@ -272,7 +272,7 @@ const projectsData = [
       "Power-ups and score tracking"
     ],
     links: {
-      github: "https://github.com/Blessan-Corley/cursor-chase",
+      github: "https://github.com/Blessan-Corley/Cursor-Game",
       demo: "https://blessan-corley.github.io/Cursor-Game/"
     },
     color: "#a855f7",

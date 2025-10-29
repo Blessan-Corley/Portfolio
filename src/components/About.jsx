@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
 import { TextGenerateEffect } from './TextGenerateEffect';
 import Carousel from './Carousel';
 import {
@@ -10,8 +11,24 @@ import {
 } from "lucide-react";
 
 const About = () => {
+  const [baseWidth, setBaseWidth] = useState(350);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (typeof window !== 'undefined') {
+        const width = window.innerWidth;
+        setBaseWidth(width < 1024 ? Math.min(350, width - 60) : 400);
+      }
+    };
+    updateWidth();
+    window.addEventListener('resize', updateWidth, { passive: true });
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       id="about"
       className="relative bg-black text-white py-20 px-6 md:px-12 lg:px-20 w-full overflow-hidden"
       style={{ fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
@@ -77,7 +94,6 @@ const About = () => {
 
         {/* Main Content */}
         <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row items-start justify-between gap-12">
-
           {/* Left Side - Bio Text */}
           <motion.div
             className="lg:w-1/2 w-full flex flex-col justify-start"
@@ -86,42 +102,38 @@ const About = () => {
             viewport={{ once: false, amount: 0.3 }}
             transition={{ duration: 0.8 }}
           >
-            {/* First Paragraph with BNP Paribas Gradient */}
-          <div className="text-lg md:text-xl leading-relaxed font-semibold font-[Inter,sans-serif] text-gray-200 mb-6">
-            <span>Hey, I’m Blessan, an </span>
-            <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent font-bold">
-              AI & Data Science student
-            </span>
-            <span> at Kalaignar Karunanidhi Institute of Technology — I just like building stuff that doesn’t crash on demo day.</span>
-          </div>
+            <div className="text-lg md:text-xl leading-relaxed font-semibold font-[Inter,sans-serif] text-gray-200 mb-6">
+              <span>Hey, I’m Blessan, an </span>
+              <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent font-bold">
+                AI & Data Science student
+              </span>
+              <span> at Kalaignar Karunanidhi Institute of Technology — I just like building stuff that doesn’t crash on demo day.</span>
+            </div>
 
-          {/* Second Paragraph with Python/SQL and DevOps Gradients */}
-          <div className="text-lg md:text-xl leading-relaxed font-medium font-[Inter,sans-serif] text-gray-200 mb-6">
-            <span>I’m into </span>
-            <span className="bg-gradient-to-r from-green-400 via-emerald-500 to-teal-500 bg-clip-text text-transparent font-bold">
-              Full Stack Development, Python DSA,
-            </span>
-            <span> and all things </span>
-            <span className="bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 bg-clip-text text-transparent font-bold">
-              Cloud
-            </span>
-            <span> — basically anything that keeps me curious (and mildly sleep-deprived). Still learning, still experimenting, and still pretending I know what “production ready” means.</span>
-          </div>
+            <div className="text-lg md:text-xl leading-relaxed font-medium font-[Inter,sans-serif] text-gray-200 mb-6">
+              <span>I’m into </span>
+              <span className="bg-gradient-to-r from-green-400 via-emerald-500 to-teal-500 bg-clip-text text-transparent font-bold">
+                Full Stack Development, Python DSA,
+              </span>
+              <span> and all things </span>
+              <span className="bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 bg-clip-text text-transparent font-bold">
+                Cloud
+              </span>
+              <span> — basically anything that keeps me curious (and mildly sleep-deprived). Still learning, still experimenting, and still pretending I know what “production ready” means.</span>
+            </div>
           </motion.div>
 
-          {/* Right Side - Carousel with WORKING Icons */}
+          {/* Right Side - Carousel */}
           <motion.div
-            className="lg:w-1/2 w-full flex items-start justify-center lg:justify-end lg:pr-0"
+            className="lg:w-1/2 w-full flex items-start justify-center lg:justify-end"
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: false, amount: 0.3 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <div className="w-full lg:ml-auto lg:mr-0 max-w-sm lg:max-w-md mx-auto lg:mx-0">
+            <div className="w-full max-w-sm lg:max-w-md mx-auto lg:mx-0">
               <Carousel
-                baseWidth={typeof window !== 'undefined' ?
-                  window.innerWidth < 1024 ? Math.min(350, window.innerWidth - 60) : 400
-                  : 350}
+                baseWidth={baseWidth}
                 autoplay={true}
                 autoplayDelay={3500}
                 pauseOnHover={true}
@@ -163,7 +175,6 @@ const About = () => {
               />
             </div>
           </motion.div>
-
         </div>
       </div>
     </section>

@@ -55,7 +55,10 @@ class ErrorBoundary extends React.Component {
               We encountered an error. Please try refreshing the page.
             </p>
             <button 
-              onClick={() => window.location.reload()}
+              onClick={() => {
+                this.setState({ hasError: false, error: null });
+                window.location.reload();
+              }}
               className="px-6 py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors font-semibold"
               type="button"
             >
@@ -75,6 +78,16 @@ function App() {
 
   useEffect(() => {
     setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    // Prevent layout shift on scroll
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.documentElement.style.scrollbarGutter = 'stable';
+    
+    return () => {
+      document.documentElement.style.scrollbarGutter = '';
+    };
   }, []);
 
   if (!isMounted) return null;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import {
   FiMail,
   FiPhone,
@@ -19,6 +19,8 @@ import {
 
 const ContactSection = () => {
   const [copied, setCopied] = useState('');
+  const [resumeLoading, setResumeLoading] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
 
   const handleCopyToClipboard = (text, type) => {
     navigator.clipboard.writeText(text).catch(console.error);
@@ -27,31 +29,20 @@ const ContactSection = () => {
   };
 
   const handleResumeDownload = async () => {
+    setResumeLoading(true);
     try {
-      const baseUrl = import.meta.env.BASE_URL.endsWith('/') 
-        ? import.meta.env.BASE_URL 
-        : `${import.meta.env.BASE_URL}/`;
-      
-      const resumePath = `${baseUrl}resume/Blessan_resume.pdf`;
-      
-      const response = await fetch(resumePath);
-      if (!response.ok) {
-        console.warn('Resume not found');
-        alert('Resume file not found. Please try again later.');
-        return;
-      }
-
-      const blob = await response.blob();
+      const resumePath = '/resume.pdf';
       const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'Blessan_resume.pdf';
+      link.href = resumePath;
+      link.download = 'Blessan_Corley_Resume.pdf';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      URL.revokeObjectURL(link.href);
     } catch (error) {
       console.error('Resume download error:', error);
-      alert('Failed to download resume');
+      alert('Resume not available. Please check back later.');
+    } finally {
+      setResumeLoading(false);
     }
   };
 
@@ -75,56 +66,61 @@ const ContactSection = () => {
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute inset-0 bg-black" />
         
-        <motion.div
-          className="absolute top-1/3 left-1/4 w-80 h-80 bg-gradient-to-r from-gray-800/8 to-gray-700/6 rounded-full blur-3xl"
-          animate={{
-            x: [0, 30, 0],
-            y: [0, -20, 0],
-            scale: [1, 1.05, 1],
-          }}
-          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-gradient-to-r from-gray-900/10 to-gray-800/8 rounded-full blur-3xl"
-          animate={{
-            x: [0, -25, 0],
-            y: [0, 30, 0],
-            scale: [1, 1.08, 1],
-          }}
-          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute top-1/2 left-1/2 w-64 h-64 bg-gradient-to-r from-zinc-800/6 to-stone-800/4 rounded-full blur-3xl"
-          animate={{
-            x: [0, 20, -15, 0],
-            y: [0, -15, 10, 0],
-            scale: [1, 1.1, 0.95, 1],
-          }}
-          transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {[...Array(20)].map((_, i) => (
+        {!shouldReduceMotion && (
+          <>
             <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-white/20 rounded-full"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
+              className="absolute top-1/3 left-1/4 w-80 h-80 bg-gradient-to-r from-gray-800/8 to-gray-700/6 rounded-full blur-3xl"
               animate={{
-                y: [0, -30, 0],
-                opacity: [0, 1, 0],
-                scale: [0, 1, 0],
+                x: [0, 30, 0],
+                y: [0, -20, 0],
+                scale: [1, 1.05, 1],
               }}
-              transition={{
-                duration: 3 + Math.random() * 2,
-                repeat: Infinity,
-                delay: Math.random() * 2,
-                ease: "easeInOut"
-              }}
+              transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
             />
-          ))}
-        </div>
+            <motion.div
+              className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-gradient-to-r from-gray-900/10 to-gray-800/8 rounded-full blur-3xl"
+              animate={{
+                x: [0, -25, 0],
+                y: [0, 30, 0],
+                scale: [1, 1.08, 1],
+              }}
+              transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.div
+              className="absolute top-1/2 left-1/2 w-64 h-64 bg-gradient-to-r from-zinc-800/6 to-stone-800/4 rounded-full blur-3xl"
+              animate={{
+                x: [0, 20, -15, 0],
+                y: [0, -15, 10, 0],
+                scale: [1, 1.1, 0.95, 1],
+              }}
+              transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              {[...Array(15)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-1 h-1 bg-white/20 rounded-full"
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                  }}
+                  animate={{
+                    y: [0, -30, 0],
+                    opacity: [0, 1, 0],
+                    scale: [0, 1, 0],
+                  }}
+                  transition={{
+                    duration: 3 + Math.random() * 2,
+                    repeat: Infinity,
+                    delay: Math.random() * 2,
+                    ease: "easeInOut"
+                  }}
+                />
+              ))}
+            </div>
+          </>
+        )}
+        
         <motion.div
           className="absolute inset-0"
           animate={{ opacity: [0.02, 0.04, 0.02] }}
@@ -151,15 +147,15 @@ const ContactSection = () => {
             Let's{' '}
             <motion.span
               className="bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent"
-              animate={{
+              animate={shouldReduceMotion ? {} : {
                 backgroundPosition: ['0% 50%', '100% 50%', '0% 50%']
               }}
-              transition={{
+              transition={shouldReduceMotion ? {} : {
                 duration: 2.5,
                 repeat: Infinity,
                 ease: "easeInOut"
               }}
-              style={{
+              style={shouldReduceMotion ? {} : {
                 backgroundSize: '200% 200%'
               }}
             >
@@ -199,34 +195,32 @@ const ContactSection = () => {
                 <div className="flex items-center gap-2">
                   <motion.div 
                     className="w-3 h-3 rounded-full bg-red-500"
-                    animate={{ opacity: [1, 0.7, 1] }}
-                    transition={{ duration: 2, repeat: Infinity }}
+                    animate={shouldReduceMotion ? {} : { opacity: [1, 0.7, 1] }}
+                    transition={shouldReduceMotion ? {} : { duration: 2, repeat: Infinity }}
                   />
                   <motion.div 
                     className="w-3 h-3 rounded-full bg-yellow-500"
-                    animate={{ opacity: [1, 0.7, 1] }}
-                    transition={{ duration: 2, repeat: Infinity, delay: 0.2 }}
+                    animate={shouldReduceMotion ? {} : { opacity: [1, 0.7, 1] }}
+                    transition={shouldReduceMotion ? {} : { duration: 2, repeat: Infinity, delay: 0.2 }}
                   />
                   <motion.div 
                     className="w-3 h-3 rounded-full bg-green-500"
-                    animate={{ opacity: [1, 0.7, 1] }}
-                    transition={{ duration: 2, repeat: Infinity, delay: 0.4 }}
+                    animate={shouldReduceMotion ? {} : { opacity: [1, 0.7, 1] }}
+                    transition={shouldReduceMotion ? {} : { duration: 2, repeat: Infinity, delay: 0.4 }}
                   />
                 </div>
                 <span className="text-white/90 text-sm font-medium">CONTACT</span>
               </div>
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2">
-                  <motion.div
-                    className="w-2 h-2 rounded-full bg-emerald-400"
-                    animate={{ 
-                      opacity: [1, 0.4, 1],
-                      scale: [1, 1.2, 1]
-                    }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                  />
-                  <span className="text-emerald-400 text-sm font-medium">ONLINE</span>
-                </div>
+              <div className="flex items-center gap-2">
+                <motion.div
+                  className="w-2 h-2 rounded-full bg-emerald-400"
+                  animate={shouldReduceMotion ? {} : { 
+                    opacity: [1, 0.4, 1],
+                    scale: [1, 1.2, 1]
+                  }}
+                  transition={shouldReduceMotion ? {} : { duration: 1.5, repeat: Infinity }}
+                />
+                <span className="text-emerald-400 text-sm font-medium">ONLINE</span>
               </div>
             </div>
           </motion.div>
@@ -269,7 +263,7 @@ const ContactSection = () => {
                       backdropFilter: 'blur(10px)',
                       boxShadow: '0 4px 16px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.1)'
                     }}
-                    whileHover={{ 
+                    whileHover={shouldReduceMotion ? {} : { 
                       scale: 1.02,
                       y: -2,
                       boxShadow: '0 8px 25px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.2)'
@@ -290,7 +284,7 @@ const ContactSection = () => {
                       backdropFilter: 'blur(10px)',
                       boxShadow: '0 4px 16px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.1)'
                     }}
-                    whileHover={{ 
+                    whileHover={shouldReduceMotion ? {} : { 
                       scale: 1.02,
                       y: -2,
                       boxShadow: '0 8px 25px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.2)'
@@ -366,11 +360,11 @@ const ContactSection = () => {
                   >
                     <motion.div 
                       className="w-3 h-3 rounded-full bg-emerald-400 flex-shrink-0"
-                      animate={{ 
+                      animate={shouldReduceMotion ? {} : { 
                         opacity: [1, 0.5, 1],
                         boxShadow: ['0 0 0 0 rgba(34, 197, 94, 0.7)', '0 0 0 4px rgba(34, 197, 94, 0)', '0 0 0 0 rgba(34, 197, 94, 0.7)']
                       }}
-                      transition={{ duration: 2, repeat: Infinity }}
+                      transition={shouldReduceMotion ? {} : { duration: 2, repeat: Infinity }}
                     />
                     <span className="text-white/90 text-sm font-medium">{contactInfo.status}</span>
                   </div>
@@ -418,7 +412,7 @@ const ContactSection = () => {
                       backdropFilter: 'blur(10px)',
                       boxShadow: '0 4px 16px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.1)'
                     }}
-                    whileHover={{ 
+                    whileHover={shouldReduceMotion ? {} : { 
                       scale: 1.02,
                       y: -2,
                       boxShadow: '0 8px 25px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.2)'
@@ -438,7 +432,7 @@ const ContactSection = () => {
                       backdropFilter: 'blur(10px)',
                       boxShadow: '0 4px 16px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.1)'
                     }}
-                    whileHover={{ 
+                    whileHover={shouldReduceMotion ? {} : { 
                       scale: 1.02,
                       y: -2,
                       boxShadow: '0 8px 25px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.2)'
@@ -465,33 +459,36 @@ const ContactSection = () => {
                 <div className="space-y-3">
                   <motion.button
                     onClick={handleResumeDownload}
+                    disabled={resumeLoading}
                     type="button"
-                    className="group flex items-center gap-3 p-4 rounded-xl border border-white/20 hover:border-white/30 transition-all duration-300 w-full"
+                    className="group flex items-center gap-3 p-4 rounded-xl border border-white/20 hover:border-white/30 transition-all duration-300 w-full disabled:opacity-50"
                     style={{
                       background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)',
                       backdropFilter: 'blur(10px)',
                       boxShadow: '0 4px 16px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.1)'
                     }}
-                    whileHover={{ 
+                    whileHover={shouldReduceMotion ? {} : { 
                       scale: 1.02,
                       y: -2,
                       boxShadow: '0 8px 25px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.2)'
                     }}
-                    whileTap={{ scale: 0.98 }}
+                    whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}
                   >
                     <FiDownload className="text-orange-400 flex-shrink-0 text-lg" />
-                    <span className="text-white/90 text-sm font-medium">→ Resume.pdf</span>
+                    <span className="text-white/90 text-sm font-medium">→ {resumeLoading ? 'Downloading...' : 'Resume.pdf'}</span>
                     <div className="ml-auto text-white/50 group-hover:text-white/80 group-hover:scale-110 transition-all">⬇️</div>
                   </motion.button>
                   <motion.a
-                    href="#"
+                    href="https://github.com/Blessan-Corley"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="group flex items-center gap-3 p-4 rounded-xl border border-white/20 hover:border-white/30 transition-all duration-300"
                     style={{
                       background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)',
                       backdropFilter: 'blur(10px)',
                       boxShadow: '0 4px 16px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.1)'
                     }}
-                    whileHover={{ 
+                    whileHover={shouldReduceMotion ? {} : { 
                       scale: 1.02,
                       y: -2,
                       boxShadow: '0 8px 25px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.2)'
@@ -533,18 +530,18 @@ const ContactSection = () => {
                       background: 'linear-gradient(135deg, #ec4899 0%, #3b82f6 100%)',
                       boxShadow: '0 4px 16px rgba(236, 72, 153, 0.3)'
                     }}
-                    whileHover={{ 
+                    whileHover={shouldReduceMotion ? {} : { 
                       scale: 1.05,
                       boxShadow: '0 8px 25px rgba(236, 72, 153, 0.4)'
                     }}
-                    whileTap={{ scale: 0.95 }}
+                    whileTap={shouldReduceMotion ? {} : { scale: 0.95 }}
                     onClick={() => window.location.href = `mailto:${contactInfo.email}`}
                   >
                     <motion.div
                       className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent"
                       initial={{ x: '-100%' }}
-                      whileHover={{ x: '100%' }}
-                      transition={{ duration: 0.6 }}
+                      whileHover={shouldReduceMotion ? {} : { x: '100%' }}
+                      transition={shouldReduceMotion ? {} : { duration: 0.6 }}
                     />
                     <span className="relative z-10">Send Message</span>
                   </motion.button>

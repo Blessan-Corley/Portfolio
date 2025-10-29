@@ -1,154 +1,194 @@
-import { useRef, useEffect, useState, useCallback, memo } from "react";
+import { useRef, useEffect, useState, memo } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
-const LightRays = memo(
-  ({
-    raysOrigin = "top-center",
-    raysColor = "#ffffff",
-    raysSpeed = 1,
-    lightSpread = 1,
-    rayLength = 2,
-    pulsating = false,
-    fadeDistance = 1.0,
-    saturation = 1.0,
-    followMouse = true,
-    mouseInfluence = 0.1,
-    noiseAmount = 0.0,
-    distortion = 0.0,
-    className = "",
-  }) => {
-    const containerRef = useRef(null);
-    const [isVisible, setIsVisible] = useState(false);
-    const prefersReducedMotion = useReducedMotion();
+const LightRays = memo(({
+  raysOrigin = "top-center",
+  raysColor = "#ffffff",
+  raysSpeed = 1,
+  lightSpread = 1,
+  rayLength = 2,
+  pulsating = false,
+  fadeDistance = 1.0,
+  saturation = 1.0,
+  followMouse = false,
+  mouseInfluence = 0.1,
+  noiseAmount = 0.0,
+  distortion = 0.0,
+  className = "",
+}) => {
+  const containerRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-    useEffect(() => {
-      if (!containerRef.current) return;
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        setIsVisible(entries[0].isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
 
-      const observer = new IntersectionObserver(
-        (entries) => {
-          setIsVisible(entries[0].isIntersecting);
-        },
-        { threshold: 0.1 }
-      );
+  useEffect(() => {
+    if (!followMouse) return;
+    const handleMouseMove = (e) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [followMouse]);
 
-      observer.observe(containerRef.current);
-      return () => observer.disconnect();
-    }, []);
-
-    if (!isVisible || prefersReducedMotion) {
-      return (
-        <div
-          ref={containerRef}
-          className={`w-full h-full pointer-events-none z-[3] overflow-hidden relative ${className}`.trim()}
-        />
-      );
-    }
-
-    const rayCount = 4;
-    const rays = Array.from({ length: rayCount }, (_, i) => ({
-      id: i,
-      angle: (i / rayCount) * 360,
-      delay: i * 0.2,
-    }));
-
+  if (!isVisible || prefersReducedMotion) {
     return (
       <div
         ref={containerRef}
         className={`w-full h-full pointer-events-none z-[3] overflow-hidden relative ${className}`.trim()}
-      >
-        {/* Base gradient glow */}
-        <motion.div
-          className="absolute inset-0 opacity-40"
-          style={{
-            background: `radial-gradient(ellipse at center, ${raysColor}30 0%, transparent 70%)`,
-          }}
-          animate={{
-            scale: [1, 1.15, 1],
-            opacity: [0.2, 0.5, 0.2],
-          }}
-          transition={{
-            duration: 6 / raysSpeed,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-
-        {/* Ray beams */}
-        {rays.map((ray) => (
-          <motion.div
-            key={ray.id}
-            className="absolute inset-0"
-            animate={{
-              opacity: pulsating 
-                ? [0.3, 0.7, 0.3]
-                : [0.4, 0.6, 0.4],
-            }}
-            transition={{
-              duration: 4 / raysSpeed,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: ray.delay,
-            }}
-            style={{
-              background: `conic-gradient(from ${ray.angle}deg, ${raysColor}${Math.round(40 - ray.id * 5)}, transparent ${50 + ray.id * 8}%)`,
-            }}
-          />
-        ))}
-
-        {/* Animated light waves */}
-        {[0, 1, 2].map((index) => (
-          <motion.div
-            key={`wave-${index}`}
-            className="absolute top-0 left-1/2 w-96 h-full -translate-x-1/2"
-            style={{
-              background: `linear-gradient(180deg, ${raysColor}${30 - index * 10} 0%, transparent 60%)`,
-              filter: `blur(${20 + index * 10}px)`,
-            }}
-            animate={{
-              y: [-100, 200, -100],
-              opacity: [0.2, 0.6, 0.2],
-            }}
-            transition={{
-              duration: 8 / raysSpeed + index * 0.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: index * 0.3,
-            }}
-          />
-        ))}
-
-        {/* Particle system */}
-        {Array.from({ length: 6 }).map((_, i) => (
-          <motion.div
-            key={`particle-${i}`}
-            className="absolute rounded-full blur-sm"
-            style={{
-              width: Math.random() * 4 + 1 + "px",
-              height: Math.random() * 4 + 1 + "px",
-              background: raysColor,
-              left: Math.random() * 100 + "%",
-              top: Math.random() * 100 + "%",
-              opacity: Math.random() * 0.5 + 0.2,
-            }}
-            animate={{
-              y: [0, -300, 0],
-              x: [0, Math.random() * 100 - 50, 0],
-              opacity: [0, 0.8, 0],
-              scale: [0, 1, 0],
-            }}
-            transition={{
-              duration: 8 + Math.random() * 4,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: i * 0.5,
-            }}
-          />
-        ))}
-      </div>
+      />
     );
   }
-);
+
+  const baseSpeed = raysSpeed || 1;
+  const duration = 8 / baseSpeed;
+
+  return (
+    <div
+      ref={containerRef}
+      className={`w-full h-full pointer-events-none z-[3] overflow-hidden relative ${className}`.trim()}
+    >
+      {/* Main gradient glow */}
+      <motion.div
+        className="absolute inset-0 opacity-60"
+        style={{
+          background: `radial-gradient(circle at center, ${raysColor}30 0%, ${raysColor}10 30%, transparent 70%)`,
+        }}
+        animate={{
+          scale: [1, 1.15, 1],
+          opacity: [0.3, 0.6, 0.3],
+        }}
+        transition={{
+          duration: duration + 2,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+
+      {/* Wave 1 - Fast */}
+      <motion.div
+        className="absolute inset-0"
+        style={{
+          background: `linear-gradient(180deg, ${raysColor}25 0%, ${raysColor}12 40%, transparent 70%)`,
+          mixBlendMode: "screen",
+          filter: `blur(${20 * lightSpread}px)`,
+        }}
+        animate={{
+          y: [0, -120 * rayLength, 0],
+          opacity: [0.2, 0.7, 0.2],
+          scaleY: [0.8, 1.2, 0.8],
+        }}
+        transition={{
+          duration: duration,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+
+      {/* Wave 2 - Medium */}
+      <motion.div
+        className="absolute inset-0"
+        style={{
+          background: `linear-gradient(180deg, ${raysColor}18 20%, ${raysColor}10 60%, transparent 80%)`,
+          mixBlendMode: "screen",
+          filter: `blur(${30 * lightSpread}px)`,
+        }}
+        animate={{
+          y: [20, -100 * rayLength, 20],
+          opacity: [0.15, 0.6, 0.15],
+          scaleY: [0.9, 1.15, 0.9],
+        }}
+        transition={{
+          duration: duration + 1,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 0.3,
+        }}
+      />
+
+      {/* Wave 3 - Slow */}
+      <motion.div
+        className="absolute inset-0"
+        style={{
+          background: `linear-gradient(180deg, ${raysColor}12 0%, ${raysColor}6 50%, transparent 90%)`,
+          mixBlendMode: "screen",
+          filter: `blur(${40 * lightSpread}px)`,
+        }}
+        animate={{
+          y: [-20, 80 * rayLength, -20],
+          opacity: [0.1, 0.5, 0.1],
+          scaleY: [0.7, 1.3, 0.7],
+        }}
+        transition={{
+          duration: duration + 2,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 0.6,
+        }}
+      />
+
+      {/* Pulsing particles */}
+      {[...Array(8)].map((_, i) => (
+        <motion.div
+          key={`particle-${i}`}
+          className="absolute rounded-full"
+          style={{
+            width: "4px",
+            height: "4px",
+            background: raysColor,
+            left: `${(i / 8) * 100}%`,
+            top: `${20 + Math.random() * 60}%`,
+            filter: `blur(2px)`,
+          }}
+          animate={{
+            y: [0, -150 - i * 15, 0],
+            x: [0, Math.sin(i) * 60, 0],
+            opacity: [0, 0.8, 0],
+            scale: [0.5, 1.5, 0.5],
+          }}
+          transition={{
+            duration: 5 + Math.random() * 3,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: i * 0.1,
+          }}
+        />
+      ))}
+
+      {/* Central glow effect */}
+      <motion.div
+        className="absolute top-0 left-1/2 -translate-x-1/2 rounded-full"
+        style={{
+          width: "400px",
+          height: "400px",
+          background: `radial-gradient(circle, ${raysColor}40 0%, transparent 70%)`,
+          filter: "blur(80px)",
+          mixBlendMode: "screen",
+        }}
+        animate={{
+          scale: [0.8, 1.2, 0.8],
+          opacity: [0.3, 0.7, 0.3],
+        }}
+        transition={{
+          duration: duration + 3,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+    </div>
+  );
+});
 
 LightRays.displayName = "LightRays";
-
 export default LightRays;

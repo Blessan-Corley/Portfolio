@@ -1,10 +1,9 @@
+import { useState, useEffect, useRef, memo } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 
-import { useState, useEffect, useRef } from 'react';
-
-// Inject global keyframes only once (outside component to avoid re-creation)
 const injectKeyframes = () => {
   if (typeof document === 'undefined') return;
-  if (document.querySelector('#navbar-keyframes')) return; // Prevent duplication
+  if (document.querySelector('#navbar-keyframes')) return;
 
   const style = document.createElement('style');
   style.id = 'navbar-keyframes';
@@ -13,31 +12,31 @@ const injectKeyframes = () => {
       0%, 100% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
     }
+    .animate-gradient-shift {
+      animation: gradientShift 3s ease-in-out infinite;
+    }
   `;
   document.head.appendChild(style);
 };
 
-// Call once on module load (safe in SSR if guarded)
 if (typeof window !== 'undefined') {
   injectKeyframes();
 }
 
-const Navbar = () => {
+const Navbar = memo(() => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const mobileMenuRef = useRef(null);
+  const shouldReduceMotion = useReducedMotion();
 
-  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close menu on route change (optional: integrate with router later)
   const closeMenu = () => setIsMenuOpen(false);
 
-  // Accessibility: close menu on click outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (mobileMenuRef.current && !mobileMenuRef.current.contains(e.target) && isMenuOpen) {
@@ -48,7 +47,6 @@ const Navbar = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isMenuOpen]);
 
-  // Accessibility: lock scroll or manage focus (basic version)
   useEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -62,35 +60,52 @@ const Navbar = () => {
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
-  // Navigation items
   const navItems = ['About', 'Experience', 'Skills', 'Projects', 'Contact'];
+
+  const navVariants = {
+    hidden: { y: -100, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.5, ease: 'easeOut' }
+    }
+  };
 
   return (
     <nav
       className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-[96%] max-w-7xl transition-all duration-500 ease-in-out"
       aria-label="Main navigation"
     >
-      {/* Main Navbar Container */}
-      <div className="relative backdrop-blur-sm bg-black/10 border border-white/20 rounded-2xl shadow-2xl overflow-hidden">
-        {/* Glass reflection overlay */}
+      <motion.div
+        className="relative backdrop-blur-sm bg-black/10 border border-white/20 rounded-2xl shadow-2xl overflow-hidden"
+        variants={navVariants}
+        initial="hidden"
+        animate="visible"
+      >
         <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-white/8 via-white/4 to-transparent opacity-30 pointer-events-none" />
 
         <div className="relative px-6 py-4 flex justify-between items-center font-sans">
-          {/* Logo */}
-          <a
+          <motion.a
             href="/"
             className="tracking-wide relative z-10 text-2xl font-bold transition-transform duration-300 hover:scale-105"
             aria-label="Go to homepage"
+            whileHover={shouldReduceMotion ? {} : { scale: 1.05 }}
+            whileTap={shouldReduceMotion ? {} : { scale: 0.95 }}
           >
-            <span className="bg-gradient-to-r from-pink-500 via-purple-500 to-orange-500 bg-clip-text text-transparent bg-[200%_100%] animate-gradient-shift">
+            <span className="bg-gradient-to-r from-pink-500 via-purple-500 to-orange-500 bg-clip-text text-transparent animate-gradient-shift">
               Blessan Corley
             </span>
-          </a>
+          </motion.a>
 
           {/* Desktop Navigation */}
           <ul className="hidden md:flex gap-8">
-            {navItems.map((item) => (
-              <li key={item}>
+            {navItems.map((item, index) => (
+              <motion.li
+                key={item}
+                initial={shouldReduceMotion ? {} : { opacity: 0, y: -20 }}
+                animate={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
+                transition={shouldReduceMotion ? {} : { delay: index * 0.1, duration: 0.5 }}
+              >
                 <a
                   href={`#${item.toLowerCase()}`}
                   className="relative text-cyan-50 font-semibold text-base transition-all duration-300 hover:scale-105 group"
@@ -99,50 +114,62 @@ const Navbar = () => {
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-300 to-blue-400 transition-all duration-300 group-hover:w-full rounded-full" />
                   <span className="absolute inset-0 bg-cyan-300/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 blur-sm" />
                 </a>
-              </li>
+              </motion.li>
             ))}
           </ul>
 
           {/* Mobile Menu Button */}
-          <button
+          <motion.button
             onClick={toggleMenu}
             className="md:hidden relative flex flex-col justify-center items-center w-10 h-10 space-y-1.5 focus:outline-none focus:ring-2 focus:ring-cyan-400 rounded-xl backdrop-blur-xl bg-white/10 border border-white/20 transition-colors duration-300 hover:bg-cyan-300/20"
             aria-expanded={isMenuOpen}
             aria-controls="mobile-menu"
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            whileHover={shouldReduceMotion ? {} : { scale: 1.05 }}
+            whileTap={shouldReduceMotion ? {} : { scale: 0.95 }}
           >
-            <span
-              className={`block w-5 h-0.5 bg-white transition-all duration-300 ${
-                isMenuOpen ? 'rotate-45 translate-y-1.5' : ''
-              }`}
+            <motion.span
+              className="block w-5 h-0.5 bg-white transition-all duration-300"
+              animate={isMenuOpen ? { rotate: 45, translateY: 6 } : { rotate: 0, translateY: 0 }}
+              transition={shouldReduceMotion ? {} : { duration: 0.3 }}
             />
-            <span
-              className={`block w-5 h-0.5 bg-white transition-all duration-300 ${
-                isMenuOpen ? 'opacity-0' : ''
-              }`}
+            <motion.span
+              className="block w-5 h-0.5 bg-white transition-all duration-300"
+              animate={isMenuOpen ? { opacity: 0 } : { opacity: 1 }}
+              transition={shouldReduceMotion ? {} : { duration: 0.3 }}
             />
-            <span
-              className={`block w-5 h-0.5 bg-white transition-all duration-300 ${
-                isMenuOpen ? '-rotate-45 -translate-y-1.5' : ''
-              }`}
+            <motion.span
+              className="block w-5 h-0.5 bg-white transition-all duration-300"
+              animate={isMenuOpen ? { rotate: -45, translateY: -6 } : { rotate: 0, translateY: 0 }}
+              transition={shouldReduceMotion ? {} : { duration: 0.3 }}
             />
-          </button>
+          </motion.button>
         </div>
-      </div>
+      </motion.div>
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div
+        <motion.div
           id="mobile-menu"
           ref={mobileMenuRef}
           className="md:hidden absolute top-full left-0 w-full mt-2 opacity-100 translate-y-0 visible transition-all duration-300 ease-out"
           role="menu"
+          initial={shouldReduceMotion ? {} : { opacity: 0, y: -10, scale: 0.95 }}
+          animate={shouldReduceMotion ? {} : { opacity: 1, y: 0, scale: 1 }}
+          exit={shouldReduceMotion ? {} : { opacity: 0, y: -10, scale: 0.95 }}
+          transition={shouldReduceMotion ? {} : { duration: 0.2 }}
         >
           <div className="backdrop-blur-sm bg-black/15 border border-white/20 rounded-2xl shadow-2xl overflow-hidden relative">
             <div className="absolute inset-0 bg-gradient-to-b from-white/8 via-white/4 to-transparent opacity-30 pointer-events-none" />
             <ul className="relative flex flex-col py-2">
-              {navItems.map((item) => (
-                <li key={item} role="none">
+              {navItems.map((item, index) => (
+                <motion.li
+                  key={item}
+                  role="none"
+                  initial={shouldReduceMotion ? {} : { opacity: 0, x: -20 }}
+                  animate={shouldReduceMotion ? {} : { opacity: 1, x: 0 }}
+                  transition={shouldReduceMotion ? {} : { delay: index * 0.05, duration: 0.3 }}
+                >
                   <a
                     href={`#${item.toLowerCase()}`}
                     onClick={closeMenu}
@@ -151,24 +178,27 @@ const Navbar = () => {
                   >
                     <div className="flex items-center justify-between">
                       <span>{item}</span>
-                      <span className="text-cyan-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300">→</span>
+                      <motion.span
+                        className="text-cyan-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        initial={shouldReduceMotion ? {} : { x: -10 }}
+                        whileHover={shouldReduceMotion ? {} : { x: 5 }}
+                        transition={shouldReduceMotion ? {} : { duration: 0.2 }}
+                      >
+                        →
+                      </motion.span>
                     </div>
                   </a>
-                </li>
+                </motion.li>
               ))}
             </ul>
           </div>
-        </div>
+        </motion.div>
       )}
 
-      {/* Background blur layer (optional, may be redundant) */}
       <div className="absolute inset-0 -z-10 rounded-2xl backdrop-blur-sm bg-black/8 pointer-events-none" />
     </nav>
   );
-};
+});
 
-// Add animation via Tailwind (requires config) or use global CSS class
-// If you can't use Tailwind arbitrary values, define this in global CSS:
-// .animate-gradient-shift { animation: gradientShift 3s ease-in-out infinite; }
-
+Navbar.displayName = 'Navbar';
 export default Navbar;

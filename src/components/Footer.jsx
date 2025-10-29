@@ -9,7 +9,6 @@ import {
   FiArrowUp,
   FiCoffee,
   FiSend,
-  FiDownload,
   FiExternalLink
 } from 'react-icons/fi';
 
@@ -17,12 +16,10 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
   const shouldReduceMotion = useReducedMotion();
 
-  // Only include active social links
   const socialLinks = [
     { icon: FiGithub, href: "https://github.com/Blessan-Corley", label: "GitHub", color: "#ffffff" },
     { icon: FiLinkedin, href: "https://www.linkedin.com/in/blessan-corley-a-9662642a6", label: "LinkedIn", color: "#0a66c2" },
     { icon: FiMail, href: "mailto:blessancorley@gmail.com", label: "Email", color: "#ea4335" },
-    // Add others only if you have active profiles
   ];
 
   const quickLinks = [
@@ -32,28 +29,12 @@ const Footer = () => {
     { name: "Contact", href: "#contact" }
   ];
 
-  const [resumeExists, setResumeExists] = useState(true);
-
-  // Optional: Check if resume exists (basic check)
-  useEffect(() => {
-    const checkResume = async () => {
-      try {
-        const response = await fetch('/resume/Blessan_resume.pdf', { method: 'HEAD' });
-        if (!response.ok) setResumeExists(false);
-      } catch {
-        setResumeExists(false);
-      }
-    };
-    checkResume();
-  }, []);
-
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: shouldReduceMotion ? 'auto' : 'smooth' });
   };
 
   return (
     <footer className="relative bg-black text-white" role="contentinfo">
-      {/* Background Effects (only if motion is allowed) */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute inset-0 bg-black" />
         {!shouldReduceMotion && (
@@ -85,7 +66,6 @@ const Footer = () => {
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-20 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Brand */}
           <div className="lg:col-span-2">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -124,7 +104,6 @@ const Footer = () => {
             </motion.div>
           </div>
 
-          {/* Quick Links */}
           <div>
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -150,7 +129,6 @@ const Footer = () => {
             </motion.div>
           </div>
 
-          {/* Connect */}
           <div>
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -205,35 +183,12 @@ const Footer = () => {
                   Get in touch
                   <FiExternalLink className="w-3 h-3 ml-auto opacity-60" />
                 </motion.a>
-
-                {resumeExists && (
-                  <motion.a
-                    href="/resume/Blessan_resume.pdf"
-                    download
-                    className="flex items-center gap-3 p-3 rounded-lg text-white/70 hover:text-white text-sm transition-all duration-300 group focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500"
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
-                      backdropFilter: 'blur(10px)',
-                      border: '1px solid rgba(255,255,255,0.1)'
-                    }}
-                    whileHover={!shouldReduceMotion ? {
-                      scale: 1.02,
-                      x: 5,
-                      background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)'
-                    } : {}}
-                  >
-                    <FiDownload className="w-4 h-4 group-hover:animate-bounce" />
-                    Download Resume
-                    <span className="w-4 h-4 flex items-center justify-center ml-auto text-xs bg-white/10 rounded px-1">PDF</span>
-                  </motion.a>
-                )}
               </div>
             </motion.div>
           </div>
         </div>
       </div>
 
-      {/* Bottom Bar */}
       <div className="relative z-10 border-t border-white/10">
         <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
@@ -282,6 +237,7 @@ const Footer = () => {
             </motion.div>
 
             <motion.button
+              type="button"
               onClick={scrollToTop}
               className="w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group relative focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               style={{

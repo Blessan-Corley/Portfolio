@@ -1,6 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-// Inject keyframes ONCE globally (safe in Vite)
 const injectKeyframes = () => {
   if (typeof document === "undefined") return;
   if (document.getElementById("gradient-text-keyframes")) return;
@@ -16,7 +15,6 @@ const injectKeyframes = () => {
   document.head.appendChild(style);
 };
 
-// Run once on module load
 if (typeof window !== "undefined") {
   injectKeyframes();
 }
@@ -28,9 +26,17 @@ export default function GradientText({
   animationSpeed = 8,
   showBorder = false,
 }) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return <div className={className}>{children}</div>;
+
   const gradientStyle = {
     backgroundImage: `linear-gradient(-45deg, ${colors.join(", ")})`,
-    backgroundSize: "200% 200%", // 200% is enough for smooth loop
+    backgroundSize: "200% 200%",
     animation: `gradientMove ${animationSpeed}s ease infinite`,
   };
 
@@ -44,7 +50,7 @@ export default function GradientText({
           style={{
             ...gradientStyle,
             zIndex: 0,
-            padding: "1px", // creates border via background
+            padding: "1px",
             WebkitMask:
               "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
             WebkitMaskComposite: "xor",
@@ -59,7 +65,7 @@ export default function GradientText({
           ...gradientStyle,
           backgroundClip: "text",
           WebkitBackgroundClip: "text",
-          display: "inline-block", // ensures bg-clip works
+          display: "inline-block",
         }}
       >
         {children}

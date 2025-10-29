@@ -33,7 +33,6 @@ const About = () => {
       className="relative bg-black text-white py-20 px-6 md:px-12 lg:px-20 w-full overflow-hidden"
       style={{ fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
     >
-      {/* Background Pattern */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
         <motion.div
@@ -51,7 +50,6 @@ const About = () => {
       </div>
 
       <div className="relative z-10">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -92,9 +90,7 @@ const About = () => {
           </p>
         </motion.div>
 
-        {/* Main Content */}
         <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row items-start justify-between gap-12">
-          {/* Left Side - Bio Text */}
           <motion.div
             className="lg:w-1/2 w-full flex flex-col justify-start"
             initial={{ opacity: 0, x: -30 }}
@@ -103,15 +99,15 @@ const About = () => {
             transition={{ duration: 0.8 }}
           >
             <div className="text-lg md:text-xl leading-relaxed font-semibold font-[Inter,sans-serif] text-gray-200 mb-6">
-              <span>Hey, I’m Blessan, an </span>
+              <span>Hey, I'm Blessan, an </span>
               <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent font-bold">
                 AI & Data Science student
               </span>
-              <span> at Kalaignar Karunanidhi Institute of Technology — I just like building stuff that doesn’t crash on demo day.</span>
+              <span> at Kalaignar Karunanidhi Institute of Technology — I just like building stuff that doesn't crash on demo day.</span>
             </div>
 
             <div className="text-lg md:text-xl leading-relaxed font-medium font-[Inter,sans-serif] text-gray-200 mb-6">
-              <span>I’m into </span>
+              <span>I'm into </span>
               <span className="bg-gradient-to-r from-green-400 via-emerald-500 to-teal-500 bg-clip-text text-transparent font-bold">
                 Full Stack Development, Python DSA,
               </span>
@@ -119,11 +115,10 @@ const About = () => {
               <span className="bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 bg-clip-text text-transparent font-bold">
                 Cloud
               </span>
-              <span> — basically anything that keeps me curious (and mildly sleep-deprived). Still learning, still experimenting, and still pretending I know what “production ready” means.</span>
+              <span> — basically anything that keeps me curious (and mildly sleep-deprived). Still learning, still experimenting, and still pretending I know what "production ready" means.</span>
             </div>
           </motion.div>
 
-          {/* Right Side - Carousel */}
           <motion.div
             className="lg:w-1/2 w-full flex items-start justify-center lg:justify-end"
             initial={{ opacity: 0, x: 30 }}

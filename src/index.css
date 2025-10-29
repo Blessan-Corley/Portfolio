@@ -5,7 +5,7 @@
 html, body, #root {
   margin: 0;
   padding: 0;
-  width: 100vw;
+  width: 100%;
   overflow-x: hidden;
   background-color: black;
   scroll-behavior: smooth;
@@ -16,17 +16,15 @@ h1 {
   line-height: 1.1;
 }
 
-/* Override default anchor styling to prevent purple color on buttons */
 a {
   text-decoration: none;
-  color: inherit; /* This will use the color from the element itself */
+  color: inherit;
 }
 
 a:hover {
-  color: inherit; /* Prevent hover color change */
+  color: inherit;
 }
 
-/* Specific button styling */
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -49,63 +47,22 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-/* Hero section specific button overrides */
-#home a {
-  font-family: "Inter, sans-serif" !important;
-  font-weight: 500 !important;
-  text-decoration: none !important;
-}
-
-/* Blue button styling */
-#home a:first-of-type {
-  color: #60a5fa !important; /* blue-400 */
-  border-color: #3b82f6 !important; /* blue-500 */
-}
-
-#home a:first-of-type:hover {
-  background-color: rgba(59, 130, 246, 0.2) !important; /* blue-500/20 */
-  color: #93c5fd !important; /* blue-300 */
-  border-color: #60a5fa !important; /* blue-400 */
-}
-
-/* Orange button styling */
-#home a:last-of-type {
-  color: #fb923c !important; /* orange-400 */
-  border-color: #f97316 !important; /* orange-500 */
-}
-
-#home a:last-of-type:hover {
-  background-color: rgba(249, 115, 22, 0.2) !important; /* orange-500/20 */
-  color: #fdba74 !important; /* orange-300 */
-  border-color: #fb923c !important; /* orange-400 */
-}
-
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
   }
   
-  /* Keep hero buttons white even in light mode */
-  #home a {
-    color: white !important;
-  }
-  
-  #home a:hover {
-    color: black !important;
-  }
-  
   button {
     background-color: #f9f9f9;
   }
 }
-/* Performance optimizations */
+
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Reduce motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -114,13 +71,11 @@ button:focus-visible {
   }
 }
 
-/* Optimize scrolling */
 html {
   scroll-behavior: smooth;
   overflow-y: scroll;
 }
 
-/* Will-change optimization for animations */
 .blur-text,
 .skill-panel,
 [class*="motion"] {
@@ -130,6 +85,7 @@ html {
 [class*="animate"] {
   will-change: transform, opacity;
 }
+
 @keyframes gradientShift {
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -137,4 +93,16 @@ html {
 
 .animate-gradient-shift {
   animation: gradientShift 3s ease-in-out infinite;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }

@@ -9,42 +9,30 @@ export default defineConfig({
     minify: 'esbuild',
     cssCodeSplit: true,
     sourcemap: false,
+    reportCompressedSize: false,
+    outDir: 'dist',
+    emptyOutDir: true,
     rollupOptions: {
       output: {
-        manualChunks(id) {
-          // Split large dependencies
-          if (id.includes('node_modules')) {
-            if (id.includes('framer-motion')) {
-              return 'framer-motion'
-            }
-            if (id.includes('gsap')) {
-              return 'gsap'
-            }
-            if (id.includes('ogl')) {
-              return 'ogl'
-            }
-            if (id.includes('recharts') || id.includes('chart')) {
-              return 'charts'
-            }
-            return 'vendor'
-          }
+        manualChunks: {
+          'framer-motion': ['framer-motion'],
+          'gsap': ['gsap'],
+          'react-vendor': ['react', 'react-dom'],
         },
         entryFileNames: 'js/[name]-[hash].js',
         chunkFileNames: 'js/[name]-[hash].js',
         assetFileNames: 'assets/[name]-[hash].[ext]'
       },
     },
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 1600,
   },
   server: {
     compress: true,
     headers: {
       'Cache-Control': 'public, max-age=3600',
     },
-    middlewareMode: false,
   },
   optimizeDeps: {
     include: ['react', 'react-dom', 'framer-motion', 'gsap'],
-    exclude: ['ogl'],
   }
 })

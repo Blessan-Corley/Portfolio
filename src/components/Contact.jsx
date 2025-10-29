@@ -26,42 +26,40 @@ const ContactSection = () => {
     setTimeout(() => setCopied(''), 2000);
   };
 
-const handleResumeDownload = async () => {
-  try {
-    const baseUrl = import.meta.env.BASE_URL.endsWith('/') 
-      ? import.meta.env.BASE_URL 
-      : `${import.meta.env.BASE_URL}/`;
-    
-    const resumePath = `${baseUrl}resume/Blessan_resume.pdf`;
-    
-    // Try to fetch first to verify it exists
-    const response = await fetch(resumePath);
-    if (!response.ok) {
-      console.warn('Resume not found, check public folder');
-      alert('Resume file not found. Please contact support.');
-      return;
-    }
+  const handleResumeDownload = async () => {
+    try {
+      const baseUrl = import.meta.env.BASE_URL.endsWith('/') 
+        ? import.meta.env.BASE_URL 
+        : `${import.meta.env.BASE_URL}/`;
+      
+      const resumePath = `${baseUrl}resume/Blessan_resume.pdf`;
+      
+      const response = await fetch(resumePath);
+      if (!response.ok) {
+        console.warn('Resume not found');
+        alert('Resume file not found. Please try again later.');
+        return;
+      }
 
-    const blob = await response.blob();
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'Blessan_resume.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(link.href);
-  } catch (error) {
-    console.error('Resume download error:', error);
-    alert('Failed to download resume');
-  }
-};
+      const blob = await response.blob();
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'Blessan_resume.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(link.href);
+    } catch (error) {
+      console.error('Resume download error:', error);
+      alert('Failed to download resume');
+    }
+  };
 
   const contactInfo = {
     email: "blessancorley@gmail.com",
     phone: "+91-9976768211",
     location: "Coimbatore, Tamil Nadu",
     timezone: "GMT +5:30",
-    // ✅ Fixed: Removed trailing spaces
     linkedin: "https://www.linkedin.com/in/blessan-corley-a-9662642a6",
     github: "https://github.com/Blessan-Corley",
     status: "Open to opportunities",
@@ -74,11 +72,9 @@ const handleResumeDownload = async () => {
       className="relative bg-black text-white py-20 px-6 md:px-12 lg:px-20 w-full overflow-hidden"
       style={{ fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
     >
-      {/* Seamless Black Background */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute inset-0 bg-black" />
         
-        {/* Subtle warm gradient orbs - very minimal */}
         <motion.div
           className="absolute top-1/3 left-1/4 w-80 h-80 bg-gradient-to-r from-gray-800/8 to-gray-700/6 rounded-full blur-3xl"
           animate={{
@@ -106,7 +102,6 @@ const handleResumeDownload = async () => {
           }}
           transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
         />
-        {/* Floating particles */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {[...Array(20)].map((_, i) => (
             <motion.div
@@ -144,9 +139,7 @@ const handleResumeDownload = async () => {
         />
       </div>
 
-      {/* Content */}
       <div className="relative z-10">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -178,7 +171,6 @@ const handleResumeDownload = async () => {
           </p>
         </motion.div>
 
-        {/* Glass Dashboard */}
         <motion.div
           initial={{ opacity: 0, y: 50, scale: 0.95 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -190,7 +182,6 @@ const handleResumeDownload = async () => {
           }}
           className="max-w-6xl mx-auto"
         >
-          {/* Glass Terminal Header */}
           <motion.div 
             className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-t-2xl p-4 shadow-2xl"
             initial={{ opacity: 0, y: 20 }}
@@ -240,7 +231,6 @@ const handleResumeDownload = async () => {
             </div>
           </motion.div>
 
-          {/* Glass Dashboard Content */}
           <motion.div 
             className="relative bg-white/5 backdrop-blur-xl border-x border-b border-white/10 rounded-b-2xl p-8 shadow-2xl"
             initial={{ opacity: 0, y: 30 }}
@@ -253,7 +243,6 @@ const handleResumeDownload = async () => {
               boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1)'
             }}
           >
-            {/* Top Row */}
             <motion.div 
               className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8"
               initial={{ opacity: 0 }}
@@ -261,7 +250,6 @@ const handleResumeDownload = async () => {
               viewport={{ once: false }}
               transition={{ duration: 0.6, delay: 0.5 }}
             >
-              {/* Quick Connect */}
               <motion.div 
                 className="space-y-4"
                 initial={{ opacity: 0, x: -20 }}
@@ -319,7 +307,6 @@ const handleResumeDownload = async () => {
                 </div>
               </motion.div>
 
-              {/* Location */}
               <motion.div 
                 className="space-y-4"
                 initial={{ opacity: 0, y: 20 }}
@@ -357,7 +344,6 @@ const handleResumeDownload = async () => {
                 </div>
               </motion.div>
 
-              {/* Status */}
               <motion.div 
                 className="space-y-4"
                 initial={{ opacity: 0, x: 20 }}
@@ -403,7 +389,6 @@ const handleResumeDownload = async () => {
               </motion.div>
             </motion.div>
 
-            {/* Bottom Row */}
             <motion.div 
               className="grid grid-cols-1 lg:grid-cols-3 gap-6"
               initial={{ opacity: 0 }}
@@ -411,7 +396,6 @@ const handleResumeDownload = async () => {
               viewport={{ once: false }}
               transition={{ duration: 0.6, delay: 0.9 }}
             >
-              {/* Social Links */}
               <motion.div 
                 className="space-y-4"
                 initial={{ opacity: 0, x: -20 }}
@@ -467,7 +451,6 @@ const handleResumeDownload = async () => {
                 </div>
               </motion.div>
 
-              {/* Resources */}
               <motion.div 
                 className="space-y-4"
                 initial={{ opacity: 0, y: 20 }}
@@ -482,6 +465,7 @@ const handleResumeDownload = async () => {
                 <div className="space-y-3">
                   <motion.button
                     onClick={handleResumeDownload}
+                    type="button"
                     className="group flex items-center gap-3 p-4 rounded-xl border border-white/20 hover:border-white/30 transition-all duration-300 w-full"
                     style={{
                       background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)',
@@ -520,7 +504,6 @@ const handleResumeDownload = async () => {
                 </div>
               </motion.div>
 
-              {/* Let's Talk */}
               <motion.div 
                 className="space-y-4"
                 initial={{ opacity: 0, x: 20 }}
@@ -544,7 +527,8 @@ const handleResumeDownload = async () => {
                     Ready to collaborate on your next project!
                   </p>
                   <motion.button
-                    className="px-6 py-3 rounded-xl text-white font-semibold text-sm transition-all duration-300 relative overflow-hidden"
+                    type="button"
+                    className="px-6 py-3 rounded-xl text-white font-semibold text-sm transition-all duration-300 relative overflow-hidden w-full"
                     style={{
                       background: 'linear-gradient(135deg, #ec4899 0%, #3b82f6 100%)',
                       boxShadow: '0 4px 16px rgba(236, 72, 153, 0.3)'

@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion"; // ✅ Correct import
+import { motion } from "framer-motion";
 import { cn } from "../lib/utils";
 
 export function HoverBorderGradient({
@@ -42,7 +41,6 @@ export function HoverBorderGradient({
     }
   }, [hovered, duration, clockwise]);
 
-  // Ensure buttons have type="button" by default to prevent form submission
   const tagProps = Tag === "button" ? { type: "button", ...props } : props;
 
   return (
@@ -55,7 +53,6 @@ export function HoverBorderGradient({
       )}
       {...tagProps}
     >
-      {/* Content */}
       <div
         className={cn(
           "relative z-10 bg-black/80 backdrop-blur-sm text-white px-4 py-2 rounded-[inherit]",
@@ -65,7 +62,6 @@ export function HoverBorderGradient({
         {children}
       </div>
 
-      {/* Animated glow */}
       <motion.div
         className="absolute inset-0 rounded-[inherit] z-0"
         initial={{ background: movingMap[direction] }}

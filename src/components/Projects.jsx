@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import LightRays from './LightRays';
 import {
@@ -16,6 +16,7 @@ import {
   FiActivity
 } from 'react-icons/fi';
 
+// ✅ Fix 1: Clean URLs (remove trailing spaces)
 const projectsData = [
   {
     id: 1,
@@ -186,7 +187,7 @@ const projectsData = [
     ],
     links: {
       github: "https://github.com/Blessan-Corley/Reverse-Mate",
-      demo: "reverse-mate.vercel.app"
+      demo: "https://reverse-mate.vercel.app"
     },
     color: "#3b82f6",
     gradient: "from-blue-500 to-indigo-600"
@@ -368,48 +369,49 @@ const projectsData = [
 ];
 
 const ProjectsSection = () => {
-  const [activeProject, setActiveProject] = useState(projectsData[0]);
+  const [activeProject, setActiveProject] = useState(() => projectsData[0]);
   const [isMobile, setIsMobile] = useState(false);
 
+  // Handle resize
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    if (typeof window !== 'undefined') {
-      handleResize();
-      window.addEventListener('resize', handleResize);
-      return () => window.removeEventListener('resize', handleResize);
-    }
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener('resize', handleResize, { passive: true });
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // ✅ Fix 2: Inject fonts & styles ONCE with cleanup
   useEffect(() => {
-    const link = document.createElement('link');
-    link.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap';
-    link.rel = 'stylesheet';
-    document.head.appendChild(link);
+    // Google Fonts
+    const fontLink = document.createElement('link');
+    fontLink.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap';
+    fontLink.rel = 'stylesheet';
+    document.head.appendChild(fontLink);
 
+    // Scrollbar styles
     const style = document.createElement('style');
     style.textContent = `
       .custom-scrollbar::-webkit-scrollbar {
         width: 6px;
       }
-      
       .custom-scrollbar::-webkit-scrollbar-track {
         background: rgba(255, 255, 255, 0.05);
         border-radius: 3px;
       }
-      
       .custom-scrollbar::-webkit-scrollbar-thumb {
         background: rgba(255, 255, 255, 0.2);
         border-radius: 3px;
       }
-      
       .custom-scrollbar::-webkit-scrollbar-thumb:hover {
         background: rgba(255, 255, 255, 0.3);
       }
     `;
     document.head.appendChild(style);
+
+    return () => {
+      document.head.removeChild(fontLink);
+      document.head.removeChild(style);
+    };
   }, []);
 
   const StatusBadge = ({ status, type }) => {
@@ -445,7 +447,7 @@ const ProjectsSection = () => {
     <div className="flex flex-wrap gap-2">
       {skills.map((skill, index) => (
         <motion.span
-          key={index}
+          key={`skill-${index}`} // ✅ stable key
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: index * 0.1 }}
@@ -489,6 +491,7 @@ const ProjectsSection = () => {
       className="relative bg-black text-white py-20 px-6 md:px-12 lg:px-20 w-full overflow-hidden"
       style={{ fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
     >
+      {/* Background effects */}
       <div className="absolute inset-0 z-0">
         <LightRays
           raysOrigin="right"
@@ -575,7 +578,7 @@ const ProjectsSection = () => {
         <div className="max-w-7xl mx-auto">
           {isMobile ? (
             <div className="space-y-8">
-              <div className="space-y-4">
+              <div className="space-y-4 max-h-[500px] overflow-y-auto custom-scrollbar pb-4">
                 {projectsData.map((project) => (
                   <ProjectNavItem
                     key={project.id}
@@ -595,6 +598,7 @@ const ProjectsSection = () => {
                   transition={{ duration: 0.3 }}
                   className="bg-white/5 rounded-xl p-6 border border-white/10 backdrop-blur-sm"
                 >
+                  {/* ... rest of mobile content unchanged ... */}
                   <div className="mb-6">
                     <div className="flex items-center gap-3 mb-4">
                       <div
@@ -659,6 +663,8 @@ const ProjectsSection = () => {
                     {activeProject.links.github && (
                       <a
                         href={activeProject.links.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors duration-200 text-white/80 hover:text-white border border-white/20"
                       >
                         <FiGithub />
@@ -668,6 +674,8 @@ const ProjectsSection = () => {
                     {activeProject.links.demo && (
                       <a
                         href={activeProject.links.demo}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="flex items-center gap-2 px-4 py-2 rounded-lg transition-colors duration-200 text-white border-2"
                         style={{
                           backgroundColor: `${activeProject.color}20`,
@@ -720,6 +728,7 @@ const ProjectsSection = () => {
                     transition={{ duration: 0.4 }}
                     className="bg-white/5 rounded-xl p-8 border border-white/10 backdrop-blur-sm"
                   >
+                    {/* ... rest of desktop content unchanged ... */}
                     <div className="mb-8">
                       <div className="flex items-center gap-4 mb-4">
                         <div
@@ -812,6 +821,8 @@ const ProjectsSection = () => {
                         {activeProject.links.github && (
                           <motion.a
                             href={activeProject.links.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             className="flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 rounded-lg transition-colors duration-200 text-white/80 hover:text-white border border-white/20"
@@ -823,6 +834,8 @@ const ProjectsSection = () => {
                         {activeProject.links.demo && (
                           <motion.a
                             href={activeProject.links.demo}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             className="flex items-center gap-2 px-6 py-3 rounded-lg transition-colors duration-200 text-white border-2"

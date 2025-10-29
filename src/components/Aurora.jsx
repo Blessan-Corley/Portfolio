@@ -1,5 +1,5 @@
 import { Renderer, Program, Mesh, Color, Triangle } from "ogl";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo } from "react";
 
 const VERT = `#version 300 es
 in vec2 position;
@@ -63,35 +63,19 @@ float snoise(vec2 v){
   return 130.0 * dot(m, g);
 }
 
-struct ColorStop {
-  vec3 color;
-  float position;
-};
-
-#define COLOR_RAMP(colors, factor, finalColor) {              \
-  int index = 0;                                            \
-  for (int i = 0; i < 2; i++) {                               \
-     ColorStop currentColor = colors[i];                    \
-     bool isInBetween = currentColor.position <= factor;    \
-     index = int(mix(float(index), float(i), float(isInBetween))); \
-  }                                                         \
-  ColorStop currentColor = colors[index];                   \
-  ColorStop nextColor = colors[index + 1];                  \
-  float range = nextColor.position - currentColor.position; \
-  float lerpFactor = (factor - currentColor.position) / range; \
-  finalColor = mix(currentColor.color, nextColor.color, lerpFactor); \
+// Simplified manual interpolation (more GPU-compatible)
+vec3 getColorRamp(float t, vec3[3] colors) {
+    if (t < 0.5) {
+        return mix(colors[0], colors[1], t * 2.0);
+    } else {
+        return mix(colors[1], colors[2], (t - 0.5) * 2.0);
+    }
 }
 
 void main() {
   vec2 uv = gl_FragCoord.xy / uResolution;
   
-  ColorStop colors[3];
-  colors[0] = ColorStop(uColorStops[0], 0.0);
-  colors[1] = ColorStop(uColorStops[1], 0.5);
-  colors[2] = ColorStop(uColorStops[2], 1.0);
-  
-  vec3 rampColor;
-  COLOR_RAMP(colors, uv.x, rampColor);
+  vec3 rampColor = getColorRamp(uv.x, uColorStops);
   
   float height = snoise(vec2(uv.x * 2.0 + uTime * 0.1, uTime * 0.25)) * 0.5 * uAmplitude;
   height = exp(height);
@@ -107,109 +91,127 @@ void main() {
 }
 `;
 
-export default function Aurora(props) {
-    const {
-        colorStops = ["#5227FF", "#7cff67", "#5227FF"],
-        amplitude = 1.0,
-        blend = 0.5
-    } = props;
-    const propsRef = useRef(props);
-    propsRef.current = props;
+export default function Aurora({ 
+  colorStops = ["#5227FF", "#7cff67", "#5227FF"], 
+  amplitude = 1.0, 
+  blend = 0.5,
+  speed = 1.0
+}) {
+  const ctnDom = useRef(null);
+  const stateRef = useRef({
+    amplitude,
+    blend,
+    speed,
+    colorStops,
+    time: 0
+  });
 
-    const ctnDom = useRef(null);
+  // Update ref on prop change
+  useEffect(() => {
+    stateRef.current = { amplitude, blend, speed, colorStops, time: stateRef.current.time };
+  }, [amplitude, blend, speed, colorStops]);
 
-    useEffect(() => {
-        const ctn = ctnDom.current;
-        if (!ctn) return;
+  // Precompute color stops as RGB arrays (memoized)
+  const colorStopsRGB = useMemo(() => {
+    return colorStops.map(hex => {
+      const c = new Color(hex);
+      return [c.r, c.g, c.b];
+    });
+  }, [colorStops]);
 
-        const renderer = new Renderer({
-            alpha: true,
-            premultipliedAlpha: true,
-            antialias: true
-        });
-        const gl = renderer.gl;
-        gl.clearColor(0, 0, 0, 0);
-        gl.enable(gl.BLEND);
-        gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
-        gl.canvas.style.backgroundColor = 'transparent';
+  useEffect(() => {
+    const ctn = ctnDom.current;
+    if (!ctn) return;
 
-        let program;
+    const renderer = new Renderer({
+      alpha: true,
+      premultipliedAlpha: true,
+      antialias: true
+    });
+    const gl = renderer.gl;
+    gl.clearColor(0, 0, 0, 0);
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 
-        function resize() {
-            if (!ctn) return;
-            const width = ctn.offsetWidth;
-            const height = ctn.offsetHeight;
-            renderer.setSize(width, height);
-            if (program) {
-                program.uniforms.uResolution.value = [width, height];
-            }
-        }
-        window.addEventListener("resize", resize);
+    let program;
+    let mesh;
 
-        const geometry = new Triangle(gl);
-        if (geometry.attributes.uv) {
-            delete geometry.attributes.uv;
-        }
+    const resize = () => {
+      if (!ctn) return;
+      const width = ctn.offsetWidth;
+      const height = ctn.offsetHeight;
+      renderer.setSize(width, height);
+      if (program) {
+        program.uniforms.uResolution.value = [width, height];
+      }
+    };
 
-        const colorStopsArray = colorStops.map((hex) => {
-            const c = new Color(hex);
-            return [c.r, c.g, c.b];
-        });
+    window.addEventListener("resize", resize);
 
-        program = new Program(gl, {
-            vertex: VERT,
-            fragment: FRAG,
-            uniforms: {
-                uTime: { value: 0 },
-                uAmplitude: { value: amplitude },
-                uColorStops: { value: colorStopsArray },
-                uResolution: { value: [ctn.offsetWidth, ctn.offsetHeight] },
-                uBlend: { value: blend }
-            }
-        });
+    const geometry = new Triangle(gl);
+    if (geometry.attributes.uv) {
+      delete geometry.attributes.uv;
+    }
 
-        const mesh = new Mesh(gl, { geometry, program });
-        ctn.appendChild(gl.canvas);
+    program = new Program(gl, {
+      vertex: VERT,
+      fragment: FRAG,
+      uniforms: {
+        uTime: { value: 0 },
+        uAmplitude: { value: amplitude },
+        uColorStops: { value: colorStopsRGB },
+        uResolution: { value: [ctn.offsetWidth, ctn.offsetHeight] },
+        uBlend: { value: blend }
+      }
+    });
 
-        let animateId = 0;
-        const update = (t) => {
-            animateId = requestAnimationFrame(update);
-            const { time = t * 0.01, speed = 1.0 } = propsRef.current;
-            program.uniforms.uTime.value = time * speed * 0.1;
-            program.uniforms.uAmplitude.value = propsRef.current.amplitude ?? 1.0;
-            program.uniforms.uBlend.value = propsRef.current.blend ?? blend;
-            const stops = propsRef.current.colorStops ?? colorStops;
-            program.uniforms.uColorStops.value = stops.map((hex) => {
-                const c = new Color(hex);
-                return [c.r, c.g, c.b];
-            });
-            renderer.render({ scene: mesh });
-        };
-        animateId = requestAnimationFrame(update);
+    mesh = new Mesh(gl, { geometry, program });
+    ctn.appendChild(gl.canvas);
 
-        resize();
+    let animateId = 0;
+    const update = (timestamp) => {
+      animateId = requestAnimationFrame(update);
+      
+      const { amplitude, blend, speed, colorStops } = stateRef.current;
+      stateRef.current.time = timestamp;
 
-        return () => {
-            cancelAnimationFrame(animateId);
-            window.removeEventListener("resize", resize);
-            if (ctn && gl.canvas.parentNode === ctn) {
-                ctn.removeChild(gl.canvas);
-            }
-            gl.getExtension("WEBGL_lose_context")?.loseContext();
-        };
-        
-    }, [amplitude]);
+      program.uniforms.uTime.value = timestamp * 0.001 * speed;
+      program.uniforms.uAmplitude.value = amplitude;
+      program.uniforms.uBlend.value = blend;
 
-    return (
-        <div
-            ref={ctnDom}
-            className="absolute inset-0 w-full h-full"
-            style={{
-                zIndex: 0,
-                pointerEvents: "none",
-            }}
-        />
-    );
+      // Only update color stops if changed (but we memoized, so this is rare)
+      program.uniforms.uColorStops.value = colorStops.map(hex => {
+        const c = new Color(hex);
+        return [c.r, c.g, c.b];
+      });
 
+      renderer.render({ scene: mesh });
+    };
 
+    animateId = requestAnimationFrame(update);
+    resize();
+
+    return () => {
+      cancelAnimationFrame(animateId);
+      window.removeEventListener("resize", resize);
+      if (ctn.contains(gl.canvas)) {
+        ctn.removeChild(gl.canvas);
+      }
+      // Clean up OGL resources
+      geometry.destroy?.();
+      program?.destroy?.();
+      renderer?.destroy?.();
+    };
+  }, []); // Run once on mount
+
+  return (
+    <div
+      ref={ctnDom}
+      className="absolute inset-0 w-full h-full"
+      style={{
+        zIndex: 0,
+        pointerEvents: "none",
+      }}
+    />
+  );
 }

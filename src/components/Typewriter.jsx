@@ -2,40 +2,42 @@ import { useState, useEffect, useRef } from "react";
 
 const Typewriter = ({ text, speed = 80 }) => {
   const [displayedText, setDisplayedText] = useState("");
-  const index = useRef(0);
+  const indexRef = useRef(0);
   const intervalRef = useRef(null);
 
   useEffect(() => {
-    console.log("Typing started with text:", text);
-    
-    
+    // Cleanup previous interval immediately
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
+      intervalRef.current = null;
     }
-    
-    
-    setDisplayedText("");
-    index.current = 0;
 
-    
-    const timeoutId = setTimeout(() => {
+    // Reset state
+    setDisplayedText("");
+    indexRef.current = 0;
+
+    // Only start if text is non-empty
+    if (!text) return;
+
+    // Start typing after a small delay
+    const startTyping = setTimeout(() => {
       intervalRef.current = setInterval(() => {
-        if (index.current < text.length) {
-          setDisplayedText((prev) => {
-            const newText = text.substring(0, index.current + 1);
-            return newText;
-          });
-          index.current += 1;
+        if (indexRef.current < text.length) {
+          setDisplayedText(text.substring(0, indexRef.current + 1));
+          indexRef.current += 1;
         } else {
           clearInterval(intervalRef.current);
+          intervalRef.current = null;
         }
       }, speed);
     }, 10);
 
+    // Cleanup on unmount or text change
     return () => {
-      clearTimeout(timeoutId);
+      clearTimeout(startTyping);
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
+        intervalRef.current = null;
       }
     };
   }, [text, speed]);

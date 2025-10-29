@@ -1,72 +1,69 @@
+import { useEffect } from "react";
+
+// Inject keyframes ONCE globally (safe in Vite)
+const injectKeyframes = () => {
+  if (typeof document === "undefined") return;
+  if (document.getElementById("gradient-text-keyframes")) return;
+
+  const style = document.createElement("style");
+  style.id = "gradient-text-keyframes";
+  style.textContent = `
+    @keyframes gradientMove {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+  `;
+  document.head.appendChild(style);
+};
+
+// Run once on module load
+if (typeof window !== "undefined") {
+  injectKeyframes();
+}
+
 export default function GradientText({
   children,
   className = "",
-  colors = ["#ffbb6eff", "#f97316", "#fdba74", "#e6e6e6ff"], 
+  colors = ["#ffbb6eff", "#f97316", "#fdba74", "#e6e6e6ff"],
   animationSpeed = 8,
   showBorder = false,
 }) {
   const gradientStyle = {
     backgroundImage: `linear-gradient(-45deg, ${colors.join(", ")})`,
-    backgroundSize: "400% 400%",
+    backgroundSize: "200% 200%", // 200% is enough for smooth loop
     animation: `gradientMove ${animationSpeed}s ease infinite`,
-    fontFamily: 'Inter, sans-serif', 
   };
 
   return (
-    <>
-      {/* Define the keyframes inline */}
-      <style>{`
-        @keyframes gradientMove {
-          0% {
-            background-position: 0% 50%;
-          }
-          25% {
-            background-position: 100% 50%;
-          }
-          50% {
-            background-position: 100% 100%;
-          }
-          75% {
-            background-position: 0% 100%;
-          }
-          100% {
-            background-position: 0% 50%;
-          }
-        }
-      `}</style>
-      
-      <div
-        className={`relative inline-block rounded-[1.25rem] font-medium overflow-hidden cursor-pointer ${className}`}
-        style={{ fontFamily: 'Inter, sans-serif' }}
-      >
-        {showBorder && (
-          <div
-            className="absolute inset-0 z-0 pointer-events-none"
-            style={gradientStyle}
-          >
-            <div
-              className="absolute inset-0 bg-black rounded-[1.25rem] z-[-1]"
-              style={{
-                width: "calc(100% - 2px)",
-                height: "calc(100% - 2px)",
-                left: "50%",
-                top: "50%",
-                transform: "translate(-50%, -50%)",
-              }}
-            ></div>
-          </div>
-        )}
+    <div
+      className={`relative inline-block font-medium overflow-hidden ${className}`}
+    >
+      {showBorder && (
         <div
-          className="relative z-10 text-transparent bg-cover"
+          className="absolute inset-0 rounded-[1.25rem] pointer-events-none"
           style={{
             ...gradientStyle,
-            backgroundClip: "text",
-            WebkitBackgroundClip: "text",
+            zIndex: 0,
+            padding: "1px", // creates border via background
+            WebkitMask:
+              "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+            WebkitMaskComposite: "xor",
+            maskComposite: "exclude",
           }}
-        >
-          {children}
-        </div>
-      </div>
-    </>
+        />
+      )}
+
+      <span
+        className="relative z-10 text-transparent bg-clip-text"
+        style={{
+          ...gradientStyle,
+          backgroundClip: "text",
+          WebkitBackgroundClip: "text",
+          display: "inline-block", // ensures bg-clip works
+        }}
+      >
+        {children}
+      </span>
+    </div>
   );
 }

@@ -16,7 +16,7 @@ const buildKeyframes = (from, steps) => {
 
 const BlurText = ({
   text = '',
-  delay = 200,
+  delay = 200, // in ms
   className = '',
   animateBy = 'words',
   direction = 'top',
@@ -24,13 +24,14 @@ const BlurText = ({
   rootMargin = '0px',
   animationFrom,
   animationTo,
-  easing = (t) => t,
+  easing = 'easeOut', // ✅ use standard easing name or array
   onAnimationComplete,
   stepDuration = 0.35,
 }) => {
   const elements = animateBy === 'words' ? text.split(' ') : text.split('');
   const [inView, setInView] = useState(false);
   const ref = useRef(null);
+  const completedCountRef = useRef(0);
 
   useEffect(() => {
     if (!ref.current) return;
@@ -72,9 +73,7 @@ const BlurText = ({
 
   const stepCount = toSnapshots.length + 1;
   const totalDuration = stepDuration * (stepCount - 1);
-  const times = Array.from({ length: stepCount }, (_, i) =>
-    stepCount === 1 ? 0 : i / (stepCount - 1)
-  );
+  const times = stepCount === 1 ? [0] : Array.from({ length: stepCount }, (_, i) => i / (stepCount - 1));
 
   return (
     <p
@@ -88,21 +87,26 @@ const BlurText = ({
           duration: totalDuration,
           times,
           delay: (index * delay) / 1000,
+          ease: easing, // ✅ correct property name
         };
-        spanTransition.ease = easing;
+
+        const handleAnimationComplete = () => {
+          completedCountRef.current += 1;
+          if (onAnimationComplete && completedCountRef.current === elements.length) {
+            onAnimationComplete();
+          }
+        };
 
         return (
           <motion.span
-            className="inline-block will-change-[transform,filter,opacity]"
+            className="inline-block"
             key={index}
             initial={fromSnapshot}
             animate={inView ? animateKeyframes : fromSnapshot}
             transition={spanTransition}
-            onAnimationComplete={
-              index === elements.length - 1 ? onAnimationComplete : undefined
-            }
+            onAnimationComplete={onAnimationComplete ? handleAnimationComplete : undefined}
           >
-            {segment === ' ' ? '\u00A0' : segment}
+            {segment === '' ? '\u00A0' : segment}
             {animateBy === 'words' && index < elements.length - 1 && '\u00A0'}
           </motion.span>
         );

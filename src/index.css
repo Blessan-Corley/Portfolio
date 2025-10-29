@@ -99,3 +99,42 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+/* Performance optimizations */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Optimize scrolling */
+html {
+  scroll-behavior: smooth;
+  overflow-y: scroll;
+}
+
+/* Will-change optimization for animations */
+.blur-text,
+.skill-panel,
+[class*="motion"] {
+  will-change: auto;
+}
+
+[class*="animate"] {
+  will-change: transform, opacity;
+}
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.animate-gradient-shift {
+  animation: gradientShift 3s ease-in-out infinite;
+}

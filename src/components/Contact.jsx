@@ -19,25 +19,20 @@ import {
 
 const ContactSection = () => {
   const [copied, setCopied] = useState('');
-  const [isOnline, setIsOnline] = useState(true);
-
-  
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIsOnline(prev => prev);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
 
   const handleCopyToClipboard = (text, type) => {
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText(text).catch(console.error);
     setCopied(type);
     setTimeout(() => setCopied(''), 2000);
   };
 
   const handleResumeDownload = () => {
+    // ✅ Fixed: Ensure BASE_URL ends with slash
+    const baseUrl = import.meta.env.BASE_URL.endsWith('/') 
+      ? import.meta.env.BASE_URL 
+      : `${import.meta.env.BASE_URL}/`;
+    const resumePath = `${baseUrl}resume/Blessan_resume.pdf`;
     
-    const resumePath = `${import.meta.env.BASE_URL}/resume/Blessan_resume.pdf`;
     const link = document.createElement('a');
     link.href = resumePath;
     link.download = 'Blessan_resume.pdf';
@@ -51,6 +46,7 @@ const ContactSection = () => {
     phone: "+91-9976768211",
     location: "Coimbatore, Tamil Nadu",
     timezone: "GMT +5:30",
+    // ✅ Fixed: Removed trailing spaces
     linkedin: "https://www.linkedin.com/in/blessan-corley-a-9662642a6",
     github: "https://github.com/Blessan-Corley",
     status: "Open to opportunities",
@@ -65,7 +61,6 @@ const ContactSection = () => {
     >
       {/* Seamless Black Background */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Pure black background for seamless transition */}
         <div className="absolute inset-0 bg-black" />
         
         {/* Subtle warm gradient orbs - very minimal */}

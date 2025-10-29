@@ -26,20 +26,35 @@ const ContactSection = () => {
     setTimeout(() => setCopied(''), 2000);
   };
 
-  const handleResumeDownload = () => {
-    // ✅ Fixed: Ensure BASE_URL ends with slash
+const handleResumeDownload = async () => {
+  try {
     const baseUrl = import.meta.env.BASE_URL.endsWith('/') 
       ? import.meta.env.BASE_URL 
       : `${import.meta.env.BASE_URL}/`;
+    
     const resumePath = `${baseUrl}resume/Blessan_resume.pdf`;
     
+    // Try to fetch first to verify it exists
+    const response = await fetch(resumePath);
+    if (!response.ok) {
+      console.warn('Resume not found, check public folder');
+      alert('Resume file not found. Please contact support.');
+      return;
+    }
+
+    const blob = await response.blob();
     const link = document.createElement('a');
-    link.href = resumePath;
+    link.href = URL.createObjectURL(blob);
     link.download = 'Blessan_resume.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  };
+    URL.revokeObjectURL(link.href);
+  } catch (error) {
+    console.error('Resume download error:', error);
+    alert('Failed to download resume');
+  }
+};
 
   const contactInfo = {
     email: "blessancorley@gmail.com",

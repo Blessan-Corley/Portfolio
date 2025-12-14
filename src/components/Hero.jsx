@@ -88,7 +88,7 @@ const Hero = () => {
                     </div>
 
                     <p className="text-gray-300 text-sm md:text-base leading-relaxed max-w-lg font-medium">
-                    3rd-year AI&DS student who actually enjoys solving LeetCode problems (okay, maybe not all of them).
+                    Pre-Final year AI&DS student who actually enjoys solving LeetCode problems (okay, maybe not all of them).
                     Building stuff with Python, React, and whatever shiny new framework catches my eye.
                     Currently on a quest to understand AWS without breaking the bank.
                     </p>

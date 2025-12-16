@@ -4,7 +4,7 @@ import TextType from "./TextType";
 import Aurora from "./Aurora";
 import GradientText from "./GradientText";
 import { HoverBorderGradient } from './HoverBorderGradient'; 
-import profileImage from '/images/Blessan_profile.jpg';
+import profileImage from '/images/RDT_20251104_2317028358729620333356500.jpg';
 
 
 

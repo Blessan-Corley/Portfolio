@@ -15,8 +15,6 @@ const CompetitiveProgramming = () => {
       icon: SiLeetcode,
       color: "#FFA116", // LeetCode Yellow
       username: "blessan_corley",
-      rating: "Max Rating: 1650", // Placeholder
-      solved: "500+ Problems",
       link: "https://leetcode.com/u/blessan_corley/",
       description: "Consistent daily challenge solver"
     },
@@ -25,8 +23,6 @@ const CompetitiveProgramming = () => {
       icon: SiCodeforces,
       color: "#1F8ACB", // Codeforces Blue
       username: "BlessanCorley",
-      rating: "Specialist (1420)", // Placeholder
-      solved: "300+ Problems",
       link: "https://codeforces.com/profile/BlessanCorley",
       description: "Competitive contest participant"
     },
@@ -35,8 +31,6 @@ const CompetitiveProgramming = () => {
       icon: SiCodechef,
       color: "#5B4638", // CodeChef Brown
       username: "blessan_corley",
-      rating: "3 Star (1600)", // Placeholder
-      solved: "200+ Problems",
       link: "https://www.codechef.com/users/blessan_corley",
       description: "Regular contest performer"
     },
@@ -45,8 +39,6 @@ const CompetitiveProgramming = () => {
       icon: SiGeeksforgeeks,
       color: "#2F8D46", // GFG Green
       username: "blessancorley",
-      rating: "Institute Rank: 5", // Placeholder
-      solved: "150+ Problems",
       link: "https://www.geeksforgeeks.org/user/blessancorley/",
       description: "DSA concept mastery"
     },
@@ -55,8 +47,6 @@ const CompetitiveProgramming = () => {
       icon: FiCode, // Using generic icon
       color: "#8B5CF6", // Purple
       username: "Blessan Corley",
-      rating: "Global Rank: Top 5%", // Placeholder
-      solved: "Aggregated Stats",
       link: "https://codolio.com/profile/Blessan%20Corley",
       description: "Unified coding portfolio"
     }
@@ -114,15 +104,15 @@ const CompetitiveProgramming = () => {
           </p>
         </motion.div>
 
-        {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Cards Grid - Flex wrap for centering last row */}
+        <div className="flex flex-wrap justify-center gap-6">
           {platforms.map((platform, index) => (
             <motion.a
               key={platform.name}
               href={platform.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative p-6 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden transition-all duration-300 hover:border-white/20 hover:bg-white/10 hover:-translate-y-2"
+              className="group relative p-6 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl overflow-hidden transition-all duration-300 hover:border-white/20 hover:bg-white/10 hover:-translate-y-2 w-full md:w-[calc(50%-12px)] lg:w-[calc(33.33%-16px)]"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false }}
@@ -134,7 +124,7 @@ const CompetitiveProgramming = () => {
                 style={{ background: `linear-gradient(135deg, ${platform.color}, transparent)` }}
               />
 
-              <div className="relative z-10">
+              <div className="relative z-10 flex flex-col h-full">
                 {/* Header: Icon & Arrow */}
                 <div className="flex justify-between items-start mb-6">
                   <div 
@@ -147,23 +137,16 @@ const CompetitiveProgramming = () => {
                 </div>
 
                 {/* Content */}
-                <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors">
-                  {platform.name}
-                </h3>
-                <p className="text-white/50 text-sm mb-6 line-clamp-2">
-                  {platform.description}
-                </p>
-
-                {/* Stats Row */}
-                <div className="flex items-center gap-4 text-sm font-medium pt-4 border-t border-white/10">
-                  <div className="flex items-center gap-1.5 text-white/80">
-                    <FiTrendingUp className="text-emerald-400" />
-                    <span>{platform.rating}</span>
-                  </div>
-                  <div className="flex items-center gap-1.5 text-white/80 ml-auto">
-                    <FiAward className="text-yellow-400" />
-                    <span>{platform.solved}</span>
-                  </div>
+                <div className="mt-auto">
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors">
+                    {platform.name}
+                  </h3>
+                  <p className="text-white/50 text-sm line-clamp-2 mb-2">
+                    {platform.description}
+                  </p>
+                  <p className="text-white/30 text-xs font-mono">
+                    @{platform.username}
+                  </p>
                 </div>
               </div>
             </motion.a>

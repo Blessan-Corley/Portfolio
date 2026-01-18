@@ -212,8 +212,8 @@ const Footer = () => {
                                 </motion.a>
 
                                 <motion.a
-                                    href="/resume/Blessan_resume.pdf"
-                                    download
+                                    href={`${import.meta.env.BASE_URL}resume/Blessan_resume.pdf`}
+                                    download="Blessan_resume.pdf"
                                     className="flex items-center gap-3 p-3 rounded-lg text-white/70 hover:text-white text-sm transition-all duration-300 group"
                                     style={{
                                         background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',

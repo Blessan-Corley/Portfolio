@@ -37,7 +37,7 @@ const ContactSection = () => {
 
   const handleResumeDownload = () => {
     
-    const resumePath = `${import.meta.env.BASE_URL}/resume/Blessan_resume.pdf`;
+    const resumePath = `${import.meta.env.BASE_URL}resume/Blessan_resume.pdf`;
     const link = document.createElement('a');
     link.href = resumePath;
     link.download = 'Blessan_resume.pdf';

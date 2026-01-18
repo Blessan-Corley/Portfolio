@@ -3,18 +3,16 @@ import { motion } from 'framer-motion';
 import {
     FiGithub,
     FiLinkedin,
-    FiTwitter,
     FiMail,
-    FiInstagram,
     FiMapPin,
     FiHeart,
     FiArrowUp,
     FiCoffee,
-    FiCode,
     FiSend,
     FiDownload,
     FiExternalLink
 } from 'react-icons/fi';
+import { FaWhatsapp } from 'react-icons/fa';
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
@@ -22,12 +20,13 @@ const Footer = () => {
     const socialLinks = [
         { icon: FiGithub, href: "https://github.com/Blessan-Corley", label: "GitHub", color: "#ffffff" },
         { icon: FiLinkedin, href: "https://www.linkedin.com/in/blessan-corley-a-9662642a6", label: "LinkedIn", color: "#0077b5" },
-        { icon: FiTwitter, href: "#", label: "Twitter", color: "#1da1f2" },
-        { icon: FiInstagram, href: "#", label: "Instagram", color: "#e4405f" },
         { icon: FiMail, href: "mailto:blessancorley@gmail.com", label: "Email", color: "#ea4335" },
-        { icon: FiCode, href: "#", label: "CodePen", color: "#000000" },
-        { icon: FiExternalLink, href: "#", label: "Dev.to", color: "#0a0a0a" },
-        { icon: FiSend, href: "#", label: "Telegram", color: "#0088cc" }
+        { 
+            icon: FaWhatsapp, 
+            href: "https://wa.me/919976768211?text=Hi%2C%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20connect%21", 
+            label: "WhatsApp", 
+            color: "#25D366" 
+        }
     ];
 
     const quickLinks = [
@@ -94,7 +93,7 @@ const Footer = () => {
                             </div>
                             <p className="text-white/70 leading-relaxed mb-6 max-w-md">
                                 Building digital experiences with code. Sometimes it works on the first try, 
-                                but usually after a few cups of coffee and Stack Overflow visits.
+                                but usually after a few cups of coffee and consulting AI assistants.
                             </p>
 
                             {/* Status indicator */}
@@ -158,7 +157,7 @@ const Footer = () => {
                         >
                             <h4 className="font-semibold mb-6 text-white/90 text-lg">Let's Connect</h4>
 
-                            {/* Social Links - 2 rows, 4 icons each */}
+                            {/* Social Links - 2 rows, 2 icons each for balanced 4 items */}
                             <div className="grid grid-cols-4 gap-3 mb-6">
                                 {socialLinks.map((social, index) => (
                                     <motion.a

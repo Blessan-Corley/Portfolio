@@ -47,6 +47,56 @@ const VELOCITY_THRESHOLD = 500;
 const GAP = 16;
 const SPRING_OPTIONS = { type: "spring", stiffness: 300, damping: 30 };
 
+const CarouselItem = ({ 
+  item, 
+  index, 
+  x, 
+  trackItemOffset, 
+  itemWidth, 
+  round, 
+  effectiveTransition, 
+  renderIcon 
+}) => {
+  const range = [
+    -(index + 1) * trackItemOffset,
+    -index * trackItemOffset,
+    -(index - 1) * trackItemOffset,
+  ];
+  const outputRange = [90, 0, -90];
+  const rotateY = useTransform(x, range, outputRange, { clamp: false });
+
+  return (
+    <motion.div
+      className={`relative shrink-0 flex flex-col ${round
+        ? "items-center justify-center text-center bg-[#060010] border-0"
+        : "items-start justify-between bg-[#222] border border-[#222] rounded-[12px]"
+        } overflow-hidden cursor-grab active:cursor-grabbing`}
+      style={{
+        width: itemWidth,
+        height: round ? itemWidth : "auto",
+        minHeight: round ? "auto" : "200px",
+        rotateY: rotateY,
+        ...(round && { borderRadius: "50%" }),
+      }}
+      transition={effectiveTransition}
+    >
+      <div className={`${round ? "p-0 m-0" : "mb-4 p-5"} ${round ? "" : "flex-shrink-0"}`}>
+        {renderIcon(item)}
+      </div>
+      <div className={`${round ? "p-4" : "p-5 pt-0"} ${round ? "" : "flex-1 flex flex-col justify-between"}`}>
+        <div>
+          <div className="mb-2 font-black text-lg text-white">
+            {item.title}
+          </div>
+          <p className="text-sm text-gray-300 leading-relaxed">
+            {item.description}
+          </p>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
 export default function Carousel({
   items = DEFAULT_ITEMS,
   baseWidth = 300,
@@ -216,47 +266,19 @@ export default function Carousel({
         transition={effectiveTransition}
         onAnimationComplete={handleAnimationComplete}
       >
-        {carouselItems.map((item, index) => {
-          const range = [
-            -(index + 1) * trackItemOffset,
-            -index * trackItemOffset,
-            -(index - 1) * trackItemOffset,
-          ];
-          const outputRange = [90, 0, -90];
-          
-          const rotateY = useTransform(x, range, outputRange, { clamp: false });
-          return (
-            <motion.div
-              key={index}
-              className={`relative shrink-0 flex flex-col ${round
-                ? "items-center justify-center text-center bg-[#060010] border-0"
-                : "items-start justify-between bg-[#222] border border-[#222] rounded-[12px]"
-                } overflow-hidden cursor-grab active:cursor-grabbing`}
-              style={{
-                width: itemWidth,
-                height: round ? itemWidth : "auto",
-                minHeight: round ? "auto" : "200px",
-                rotateY: rotateY,
-                ...(round && { borderRadius: "50%" }),
-              }}
-              transition={effectiveTransition}
-            >
-              <div className={`${round ? "p-0 m-0" : "mb-4 p-5"} ${round ? "" : "flex-shrink-0"}`}>
-                {renderIcon(item)}
-              </div>
-              <div className={`${round ? "p-4" : "p-5 pt-0"} ${round ? "" : "flex-1 flex flex-col justify-between"}`}>
-                <div>
-                  <div className="mb-2 font-black text-lg text-white">
-                    {item.title}
-                  </div>
-                  <p className="text-sm text-gray-300 leading-relaxed">
-                    {item.description}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          );
-        })}
+        {carouselItems.map((item, index) => (
+          <CarouselItem
+            key={index}
+            item={item}
+            index={index}
+            x={x}
+            trackItemOffset={trackItemOffset}
+            itemWidth={itemWidth}
+            round={round}
+            effectiveTransition={effectiveTransition}
+            renderIcon={renderIcon}
+          />
+        ))}
       </motion.div>
       <div
         className={`flex w-full justify-center ${round ? "absolute z-20 bottom-12 left-1/2 -translate-x-1/2" : ""

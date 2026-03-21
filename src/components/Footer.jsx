@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import {
     FiGithub,
@@ -13,28 +12,17 @@ import {
     FiExternalLink
 } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
+import { contactInfo, footerQuickLinks, footerSocialLinks, footerTechStack, resumeFileName, resumePath } from '../data/site';
+
+const socialIconMap = {
+    github: FiGithub,
+    linkedin: FiLinkedin,
+    email: FiMail,
+    whatsapp: FaWhatsapp,
+};
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
-
-    const socialLinks = [
-        { icon: FiGithub, href: "https://github.com/Blessan-Corley", label: "GitHub", color: "#ffffff" },
-        { icon: FiLinkedin, href: "https://www.linkedin.com/in/blessan-corley-a-9662642a6", label: "LinkedIn", color: "#0077b5" },
-        { icon: FiMail, href: "mailto:blessancorley@gmail.com", label: "Email", color: "#ea4335" },
-        { 
-            icon: FaWhatsapp, 
-            href: "https://wa.me/919976768211?text=Hi%2C%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20connect%21", 
-            label: "WhatsApp", 
-            color: "#25D366" 
-        }
-    ];
-
-    const quickLinks = [
-        { name: "About", href: "#about" },
-        { name: "Skills", href: "#skills" },
-        { name: "Projects", href: "#projects" },
-        { name: "Contact", href: "#contact" }
-    ];
 
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -42,12 +30,9 @@ const Footer = () => {
 
     return (
         <footer className="relative bg-black text-white">
-            {/* Enhanced Background */}
             <div className="absolute inset-0 overflow-hidden">
-                {/* Base black background */}
                 <div className="absolute inset-0 bg-black" />
 
-                {/* Subtle gradient orbs */}
                 <motion.div
                     className="absolute top-1/4 left-1/6 w-72 h-72 bg-gradient-to-r from-gray-800/4 to-gray-700/3 rounded-full blur-3xl"
                     animate={{
@@ -67,15 +52,11 @@ const Footer = () => {
                     transition={{ duration: 30, repeat: Infinity, ease: "easeInOut" }}
                 />
 
-                {/* Top border gradient */}
                 <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
             </div>
 
-            {/* Main Footer Content */}
             <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-20 py-16">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-
-                    {/* Brand Section */}
                     <div className="lg:col-span-2">
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
@@ -88,15 +69,13 @@ const Footer = () => {
                                     Blessan Corley
                                 </h3>
                                 <div className="mt-2">
-                                    <p className="text-sm text-blue-400/80">Full Stack Developer</p>
+                                    <p className="text-sm text-blue-400/80">Full Stack Developer | AI & Data Science Student</p>
                                 </div>
                             </div>
                             <p className="text-white/70 leading-relaxed mb-6 max-w-md">
-                                Building digital experiences with code. Sometimes it works on the first try, 
-                                but usually after a few cups of coffee and consulting AI assistants.
+                                Building full-stack products, real-time systems, and polished developer-grade experiences with a strong bias toward correctness, performance, and clean execution.
                             </p>
 
-                            {/* Status indicator */}
                             <div className="flex items-center gap-3 mb-4">
                                 <div className="flex items-center gap-2">
                                     <motion.div
@@ -107,7 +86,7 @@ const Footer = () => {
                                         }}
                                         transition={{ duration: 2, repeat: Infinity }}
                                     />
-                                    <span className="text-emerald-400 text-sm font-medium">Open to opportunities</span>
+                                    <span className="text-emerald-400 text-sm font-medium">{contactInfo.status}</span>
                                 </div>
                             </div>
 
@@ -118,7 +97,6 @@ const Footer = () => {
                         </motion.div>
                     </div>
 
-                    {/* Quick Links */}
                     <div>
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
@@ -128,7 +106,7 @@ const Footer = () => {
                         >
                             <h4 className="font-semibold mb-6 text-white/90 text-lg">Quick Links</h4>
                             <ul className="space-y-4">
-                                {quickLinks.map((link, index) => (
+                                {footerQuickLinks.map((link, index) => (
                                     <li key={index}>
                                         <motion.a
                                             href={link.href}
@@ -147,7 +125,6 @@ const Footer = () => {
                         </motion.div>
                     </div>
 
-                    {/* Connect Section */}
                     <div>
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
@@ -157,42 +134,44 @@ const Footer = () => {
                         >
                             <h4 className="font-semibold mb-6 text-white/90 text-lg">Let's Connect</h4>
 
-                            {/* Social Links - 2 rows, 2 icons each for balanced 4 items */}
                             <div className="grid grid-cols-4 gap-3 mb-6">
-                                {socialLinks.map((social, index) => (
-                                    <motion.a
-                                        key={index}
-                                        href={social.href}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 group relative"
-                                        style={{
-                                            background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)',
-                                            backdropFilter: 'blur(10px)',
-                                            border: '1px solid rgba(255,255,255,0.1)'
-                                        }}
-                                        whileHover={{
-                                            scale: 1.15,
-                                            y: -3,
-                                            boxShadow: `0 10px 25px ${social.color}20`
-                                        }}
-                                        whileTap={{ scale: 0.95 }}
-                                        aria-label={social.label}
-                                    >
-                                        <social.icon
-                                            className="w-5 h-5 text-white/70 group-hover:text-white transition-colors duration-300"
+                                {footerSocialLinks.map((social, index) => {
+                                    const Icon = socialIconMap[social.iconKey];
+
+                                    return (
+                                        <motion.a
+                                            key={index}
+                                            href={social.href}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 group relative"
                                             style={{
-                                                color: social.href.includes('mailto') ? social.color : undefined
+                                                background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)',
+                                                backdropFilter: 'blur(10px)',
+                                                border: '1px solid rgba(255,255,255,0.1)'
                                             }}
-                                        />
-                                    </motion.a>
-                                ))}
+                                            whileHover={{
+                                                scale: 1.15,
+                                                y: -3,
+                                                boxShadow: `0 10px 25px ${social.color}20`
+                                            }}
+                                            whileTap={{ scale: 0.95 }}
+                                            aria-label={social.label}
+                                        >
+                                            <Icon
+                                                className="w-5 h-5 text-white/70 group-hover:text-white transition-colors duration-300"
+                                                style={{
+                                                    color: social.iconKey === 'email' ? social.color : undefined
+                                                }}
+                                            />
+                                        </motion.a>
+                                    );
+                                })}
                             </div>
 
-                            {/* Quick Actions */}
                             <div className="space-y-3">
                                 <motion.a
-                                    href="mailto:blessancorley@gmail.com"
+                                    href={`mailto:${contactInfo.email}`}
                                     className="flex items-center gap-3 p-3 rounded-lg text-white/70 hover:text-white text-sm transition-all duration-300 group"
                                     style={{
                                         background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
@@ -211,8 +190,8 @@ const Footer = () => {
                                 </motion.a>
 
                                 <motion.a
-                                    href={`${import.meta.env.BASE_URL}resume/Blessan_resume.pdf`}
-                                    download="Blessan_resume.pdf"
+                                    href={resumePath}
+                                    download={resumeFileName}
                                     className="flex items-center gap-3 p-3 rounded-lg text-white/70 hover:text-white text-sm transition-all duration-300 group"
                                     style={{
                                         background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
@@ -235,12 +214,9 @@ const Footer = () => {
                 </div>
             </div>
 
-            {/* Bottom Bar */}
             <div className="relative z-10 border-t border-white/10">
                 <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20 py-8">
                     <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-
-                        {/* Copyright */}
                         <motion.div
                             initial={{ opacity: 0 }}
                             whileInView={{ opacity: 1 }}
@@ -248,7 +224,7 @@ const Footer = () => {
                             transition={{ duration: 0.8 }}
                             className="flex items-center gap-2 text-white/60 text-sm"
                         >
-                            <span>© {currentYear} Built with</span>
+                            <span>Copyright {currentYear} Built with</span>
                             <motion.div
                                 animate={{ scale: [1, 1.2, 1] }}
                                 transition={{ duration: 1.5, repeat: Infinity }}
@@ -265,7 +241,6 @@ const Footer = () => {
                             <span>by Blessan Corley</span>
                         </motion.div>
 
-                        {/* Tech Stack */}
                         <motion.div
                             initial={{ opacity: 0 }}
                             whileInView={{ opacity: 1 }}
@@ -273,16 +248,14 @@ const Footer = () => {
                             transition={{ duration: 0.8, delay: 0.2 }}
                             className="flex items-center gap-4 text-white/50 text-xs"
                         >
-                            <span className="hover:text-white/70 transition-colors cursor-default">React</span>
-                            <span>•</span>
-                            <span className="hover:text-white/70 transition-colors cursor-default">Framer Motion</span>
-                            <span>•</span>
-                            <span className="hover:text-white/70 transition-colors cursor-default">Tailwind CSS</span>
-                            <span>•</span>
-                            <span className="hover:text-white/70 transition-colors cursor-default">Vite</span>
+                            {footerTechStack.map((tech, index) => (
+                                <div key={tech} className="flex items-center gap-4">
+                                    <span className="hover:text-white/70 transition-colors cursor-default">{tech}</span>
+                                    {index < footerTechStack.length - 1 && <span>|</span>}
+                                </div>
+                            ))}
                         </motion.div>
 
-                        {/* Back to Top */}
                         <motion.button
                             onClick={scrollToTop}
                             className="w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group relative"

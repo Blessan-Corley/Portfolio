@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useViewport } from "../hooks/useViewport";
 
 const ExperienceAnimatedBackground = ({ className = "" }) => {
   const [mounted, setMounted] = useState(false);
+  const { width, height } = useViewport();
 
   useEffect(() => {
     setMounted(true);
@@ -81,8 +83,8 @@ const ExperienceAnimatedBackground = ({ className = "" }) => {
 
   
   const gridDots = [];
-  for (let x = 0; x < window.innerWidth; x += 80) {
-    for (let y = 0; y < window.innerHeight; y += 80) {
+  for (let x = 0; x < width; x += 80) {
+    for (let y = 0; y < height; y += 80) {
       gridDots.push({
         x,
         y,
@@ -147,17 +149,17 @@ const ExperienceAnimatedBackground = ({ className = "" }) => {
 
       {/* Floating geometric shapes */}
       <FloatingShape delay={0} duration={20} startX={100} startY={150} shape="circle" />
-      <FloatingShape delay={3} duration={25} startX={window.innerWidth - 150} startY={300} shape="square" />
+      <FloatingShape delay={3} duration={25} startX={width - 150} startY={300} shape="square" />
       <FloatingShape delay={6} duration={18} startX={200} startY={500} shape="triangle" />
-      <FloatingShape delay={9} duration={22} startX={window.innerWidth - 100} startY={100} shape="circle" />
+      <FloatingShape delay={9} duration={22} startX={width - 100} startY={100} shape="circle" />
       <FloatingShape delay={12} duration={28} startX={50} startY={400} shape="square" />
-      <FloatingShape delay={15} duration={16} startX={window.innerWidth - 250} startY={600} shape="triangle" />
+      <FloatingShape delay={15} duration={16} startX={width - 250} startY={600} shape="triangle" />
 
       {/* Code-like particles */}
       <CodeParticle delay={0} startX={150} startY={200} symbol="{}" />
-      <CodeParticle delay={5} startX={window.innerWidth - 200} startY={350} symbol="</>" />
+      <CodeParticle delay={5} startX={width - 200} startY={350} symbol="</>" />
       <CodeParticle delay={10} startX={300} startY={550} symbol="[]" />
-      <CodeParticle delay={15} startX={window.innerWidth - 120} startY={180} symbol="()" />
+      <CodeParticle delay={15} startX={width - 120} startY={180} symbol="()" />
       <CodeParticle delay={20} startX={80} startY={450} symbol="{}" />
 
       {/* Enhanced animated grid dots */}

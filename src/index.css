@@ -1,19 +1,74 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "SF Pro Display";
+  src: url("/fonts/SF-Pro-Display-Medium.otf") format("opentype");
+  font-weight: 500;
+  font-display: swap;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes text-type-cursor-blink {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
 html, body, #root {
   margin: 0;
   padding: 0;
-  width: 100vw;
+  width: 100%;
+  min-height: 100%;
   overflow-x: hidden;
   background-color: black;
   scroll-behavior: smooth;
 }
 
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.28) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.24);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.38);
+  background-clip: padding-box;
 }
 
 /* Override default anchor styling to prevent purple color on buttons */
@@ -28,20 +83,17 @@ a:hover {
 
 /* Specific button styling */
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: "Inter, sans-serif";
-  background-color: #1a1a1a;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
   cursor: pointer;
-  transition: border-color 0.25s;
-  color: white;
+  transition: border-color 0.25s, background-color 0.25s, color 0.25s;
 }
 
 button:hover {
-  border-color: #ffffff;
+  border-color: transparent;
 }
 
 button:focus,
@@ -51,7 +103,7 @@ button:focus-visible {
 
 /* Hero section specific button overrides */
 #home a {
-  font-family: "Inter, sans-serif" !important;
+  font-family: "Inter", sans-serif !important;
   font-weight: 500 !important;
   text-decoration: none !important;
 }

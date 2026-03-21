@@ -69,14 +69,14 @@ const Hero = () => {
                         showBorder={false}
                         className="text-4xl md:text-6xl font-bold"
                     >
-                        <span style={{ fontWeight: 800, fontFamily: "Inter, sans-serif" }}>
+                        <span style={{ fontWeight: 800, fontFamily: '"Inter", sans-serif' }}>
                             Hi, I'm Blessan
                         </span>
                     </GradientText>
 
                     <div className="text-xl md:text-2xl text-gray-300 font-medium mb-6 font-mono">
                         <TextType
-                            text={["AI&DS Student | Full Stack Developer"]}
+                            text={["Full Stack Developer | AI & DS Student"]}
                             typingSpeed={60}
                             pauseDuration={4000}
                             showCursor={true}
@@ -88,9 +88,9 @@ const Hero = () => {
                     </div>
 
                     <p className="text-gray-300 text-sm md:text-base leading-relaxed max-w-lg font-medium">
-                    Pre-Final year AI&DS student who actually enjoys solving LeetCode problems (okay, maybe not all of them).
-                    Building stuff with Python, React, and whatever shiny new framework catches my eye.
-                    Currently on a quest to understand AWS without breaking the bank.
+                    I build full-stack products with React, Next.js, Node.js, and TypeScript, with a strong focus on real-time systems,
+                    secure auth flows, scalable APIs, and reliable testing. Currently shipping marketplace and multiplayer products while
+                    balancing AI & Data Science coursework and competitive programming.
                     </p>
 
                     {/* Aceternity UI Animated Buttons */}

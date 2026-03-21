@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, createElement } from "react";
-import { gsap } from "gsap";
+import { useEffect, useRef, useState, createElement, useCallback, useMemo } from "react";
 
 const TextType = ({
   text,
@@ -32,13 +31,13 @@ const TextType = ({
   const cursorRef = useRef(null);
   const containerRef = useRef(null);
 
-  const textArray = Array.isArray(text) ? text : [text];
+  const textArray = useMemo(() => (Array.isArray(text) ? text : [text]), [text]);
 
-  const getRandomSpeed = () => {
+  const getRandomSpeed = useCallback(() => {
     if (!variableSpeed) return typingSpeed;
     const { min, max } = variableSpeed;
     return Math.random() * (max - min) + min;
-  };
+  }, [typingSpeed, variableSpeed]);
 
   const getCurrentTextColor = () => {
     if (textColors.length === 0) return "#ffffff";
@@ -64,16 +63,17 @@ const TextType = ({
   }, [startOnVisible]);
 
   useEffect(() => {
-    if (showCursor && cursorRef.current) {
-      gsap.set(cursorRef.current, { opacity: 1 });
-      gsap.to(cursorRef.current, {
-        opacity: 0,
-        duration: cursorBlinkDuration,
-        repeat: -1,
-        yoyo: true,
-        ease: "power2.inOut",
-      });
+    const cursorNode = cursorRef.current;
+
+    if (showCursor && cursorNode) {
+      cursorNode.style.animation = `text-type-cursor-blink ${cursorBlinkDuration}s ease-in-out infinite alternate`;
     }
+
+    return () => {
+      if (cursorNode) {
+        cursorNode.style.animation = "";
+      }
+    };
   }, [showCursor, cursorBlinkDuration]);
 
   useEffect(() => {
@@ -140,6 +140,7 @@ const TextType = ({
     isVisible,
     reverseMode,
     variableSpeed,
+    getRandomSpeed,
     onSentenceComplete,
   ]);
 

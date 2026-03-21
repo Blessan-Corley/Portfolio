@@ -9,7 +9,7 @@ export default function GradientText({
     backgroundImage: `linear-gradient(-45deg, ${colors.join(", ")})`,
     backgroundSize: "400% 400%",
     animation: `gradientMove ${animationSpeed}s ease infinite`,
-    fontFamily: 'Inter, sans-serif', 
+    fontFamily: '"Inter", sans-serif', 
   };
 
   return (
@@ -37,7 +37,7 @@ export default function GradientText({
       
       <div
         className={`relative inline-block rounded-[1.25rem] font-medium overflow-hidden cursor-pointer ${className}`}
-        style={{ fontFamily: 'Inter, sans-serif' }}
+        style={{ fontFamily: '"Inter", sans-serif' }}
       >
         {showBorder && (
           <div

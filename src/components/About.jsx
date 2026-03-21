@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import { TextGenerateEffect } from './TextGenerateEffect';
 import Carousel from './Carousel';
+import { aboutHighlights } from '../data/about';
+import { useViewport } from '../hooks/useViewport';
 import {
   Code2,
   Boxes,
@@ -10,13 +12,30 @@ import {
 } from "lucide-react";
 
 const About = () => {
+  const { width } = useViewport();
+  const aboutIcons = {
+    code2: Code2,
+    boxes: Boxes,
+    layers: Layers,
+    cloudCog: CloudCog,
+    graduationCap: GraduationCap,
+  };
+
+  const carouselItems = aboutHighlights.map((item) => {
+    const Icon = aboutIcons[item.iconKey];
+
+    return {
+      ...item,
+      icon: (props) => <Icon size={16} strokeWidth={2} color="white" {...props} />,
+    };
+  });
+
   return (
     <section
       id="about"
       className="relative bg-black text-white py-20 px-6 md:px-12 lg:px-20 w-full overflow-hidden"
       style={{ fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
     >
-      {/* Background Pattern */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black" />
         <motion.div
@@ -34,7 +53,6 @@ const About = () => {
       </div>
 
       <div className="relative z-10">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -44,7 +62,7 @@ const About = () => {
         >
           <div className="text-4xl md:text-5xl font-bold mb-4">
             <div className="flex flex-wrap justify-center items-baseline gap-2 md:gap-3">
-              <TextGenerateEffect 
+              <TextGenerateEffect
                 words="About"
                 className="text-center"
                 filter={true}
@@ -75,10 +93,7 @@ const About = () => {
           </p>
         </motion.div>
 
-        {/* Main Content */}
         <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row items-start justify-between gap-12">
-
-          {/* Left Side - Bio Text */}
           <motion.div
             className="lg:w-1/2 w-full flex flex-col justify-start"
             initial={{ opacity: 0, x: -30 }}
@@ -86,30 +101,27 @@ const About = () => {
             viewport={{ once: false, amount: 0.3 }}
             transition={{ duration: 0.8 }}
           >
-            {/* First Paragraph with BNP Paribas Gradient */}
-          <div className="text-lg md:text-xl leading-relaxed font-semibold font-[Inter,sans-serif] text-gray-200 mb-6">
-            <span>Hey, I’m Blessan, an </span>
-            <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent font-bold">
-              AI & Data Science student
-            </span>
-            <span> at Kalaignar Karunanidhi Institute of Technology — I just like building stuff that doesn’t crash on demo day.</span>
-          </div>
+            <div className="text-lg md:text-xl leading-relaxed font-semibold font-[Inter,sans-serif] text-gray-200 mb-6">
+              <span>Hey, I'm Blessan, a </span>
+              <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent font-bold">
+                full stack developer
+              </span>
+              <span> and AI & Data Science student at Kalaignar Karunanidhi Institute of Technology. I like building products that hold up under real users, not just clean demos.</span>
+            </div>
 
-          {/* Second Paragraph with Python/SQL and DevOps Gradients */}
-          <div className="text-lg md:text-xl leading-relaxed font-medium font-[Inter,sans-serif] text-gray-200 mb-6">
-            <span>I’m into </span>
-            <span className="bg-gradient-to-r from-green-400 via-emerald-500 to-teal-500 bg-clip-text text-transparent font-bold">
-              Full Stack Development, Python DSA,
-            </span>
-            <span> and all things </span>
-            <span className="bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 bg-clip-text text-transparent font-bold">
-              Cloud
-            </span>
-            <span> — basically anything that keeps me curious (and mildly sleep-deprived). Still learning, still experimenting, and still pretending I know what “production ready” means.</span>
-          </div>
+            <div className="text-lg md:text-xl leading-relaxed font-medium font-[Inter,sans-serif] text-gray-200 mb-6">
+              <span>My recent work focuses on </span>
+              <span className="bg-gradient-to-r from-green-400 via-emerald-500 to-teal-500 bg-clip-text text-transparent font-bold">
+                Next.js, React, Node.js, TypeScript, testing, and backend architecture
+              </span>
+              <span>, with a parallel obsession for </span>
+              <span className="bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 bg-clip-text text-transparent font-bold">
+                DSA and competitive programming
+              </span>
+              <span>. I enjoy shipping polished experiences, tightening performance, and backing features with tests instead of guesswork.</span>
+            </div>
           </motion.div>
 
-          {/* Right Side - Carousel with WORKING Icons */}
           <motion.div
             className="lg:w-1/2 w-full flex items-start justify-center lg:justify-end lg:pr-0"
             initial={{ opacity: 0, x: 30 }}
@@ -119,51 +131,16 @@ const About = () => {
           >
             <div className="w-full lg:ml-auto lg:mr-0 max-w-sm lg:max-w-md mx-auto lg:mx-0">
               <Carousel
-                baseWidth={typeof window !== 'undefined' ?
-                  window.innerWidth < 1024 ? Math.min(350, window.innerWidth - 60) : 400
-                  : 350}
+                baseWidth={width < 1024 ? Math.min(350, width - 60) : 400}
                 autoplay={true}
                 autoplayDelay={3500}
                 pauseOnHover={true}
                 loop={true}
                 round={false}
-                items={[
-                  {
-                    title: "Python & DSA Enthusiast",
-                    description: "Solving problems one algorithm at a time. Sometimes elegantly, sometimes with brute force.",
-                    id: 1,
-                    icon: (props) => <Code2 size={16} strokeWidth={2} color="white" {...props} />,
-                    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1024px-Python-logo-notext.svg.png",
-                  },
-                  {
-                    title: "Building Stuff",
-                    description: "From games to full-stack platforms. If it compiles (eventually), I've probably built it.",
-                    id: 2,
-                    icon: (props) => <Boxes size={16} strokeWidth={2} color="white" {...props} />,
-                  },
-                  {
-                    title: "Full Stack Explorer",
-                    description: "React, Next.js, Node.js, databases - learning the entire stack one Stack Overflow answer at a time.",
-                    id: 3,
-                    icon: (props) => <Layers size={16} strokeWidth={2} color="white" {...props} />,
-                  },
-                  {
-                    title: "Cloud Curious",
-                    description: "Diving into AWS. Turns out 'the cloud' is just someone else's computer, but it's pretty cool.",
-                    id: 4,
-                    icon: (props) => <CloudCog size={16} strokeWidth={2} color="white" {...props} />,
-                  },
-                  {
-                    title: "KIT Student",
-                    description: "3rd Year AI&DS at Kalaignar Karunanidhi Institute of Technology. Learning, building, breaking, fixing.",
-                    id: 5,
-                    icon: (props) => <GraduationCap size={16} strokeWidth={2} color="white" {...props} />,
-                  },
-                ]}
+                items={carouselItems}
               />
             </div>
           </motion.div>
-
         </div>
       </div>
     </section>

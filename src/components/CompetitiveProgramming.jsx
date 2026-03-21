@@ -1,64 +1,28 @@
-import React from 'react';
 import { motion } from 'framer-motion';
-import { 
-  SiLeetcode, 
-  SiCodeforces, 
-  SiCodechef, 
-  SiGeeksforgeeks 
+import {
+  SiLeetcode,
+  SiCodeforces,
+  SiCodechef,
+  SiGeeksforgeeks
 } from 'react-icons/si';
-import { FiExternalLink, FiCode, FiTrendingUp, FiAward } from 'react-icons/fi';
+import { FiExternalLink, FiCode } from 'react-icons/fi';
+import { competitivePlatforms } from '../data/competitiveProgramming';
+
+const iconMap = {
+  leetcode: SiLeetcode,
+  codeforces: SiCodeforces,
+  codechef: SiCodechef,
+  geeksforgeeks: SiGeeksforgeeks,
+  code: FiCode,
+};
 
 const CompetitiveProgramming = () => {
-  const platforms = [
-    {
-      name: "LeetCode",
-      icon: SiLeetcode,
-      color: "#FFA116", // LeetCode Yellow
-      username: "blessan_corley",
-      link: "https://leetcode.com/u/blessan_corley/",
-      description: "Consistent daily challenge solver"
-    },
-    {
-      name: "Codeforces",
-      icon: SiCodeforces,
-      color: "#1F8ACB", // Codeforces Blue
-      username: "BlessanCorley",
-      link: "https://codeforces.com/profile/BlessanCorley",
-      description: "Competitive contest participant"
-    },
-    {
-      name: "CodeChef",
-      icon: SiCodechef,
-      color: "#5B4638", // CodeChef Brown
-      username: "blessan_corley",
-      link: "https://www.codechef.com/users/blessan_corley",
-      description: "Regular contest performer"
-    },
-    {
-      name: "GeeksforGeeks",
-      icon: SiGeeksforgeeks,
-      color: "#2F8D46", // GFG Green
-      username: "blessancorley",
-      link: "https://www.geeksforgeeks.org/user/blessancorley/",
-      description: "DSA concept mastery"
-    },
-    {
-      name: "Codolio",
-      icon: FiCode, // Using generic icon
-      color: "#8B5CF6", // Purple
-      username: "Blessan Corley",
-      link: "https://codolio.com/profile/Blessan%20Corley",
-      description: "Unified coding portfolio"
-    }
-  ];
-
   return (
-    <section 
-      id="competitive-programming" 
+    <section
+      id="competitive-programming"
       className="relative bg-black text-white py-20 px-6 md:px-12 lg:px-20 w-full overflow-hidden"
       style={{ fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}
     >
-      {/* Background Ambience */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute inset-0 bg-black" />
         <motion.div
@@ -80,7 +44,6 @@ const CompetitiveProgramming = () => {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -89,7 +52,7 @@ const CompetitiveProgramming = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            <span 
+            <span
               className="bg-clip-text text-transparent"
               style={{
                 backgroundImage: 'linear-gradient(90deg, #ff7b54, #ffb347, #ffd700, #4fc3f7, #42a5f5)',
@@ -100,13 +63,15 @@ const CompetitiveProgramming = () => {
             </span>
           </h2>
           <p className="text-white/60 max-w-2xl mx-auto text-lg">
-            Pushing the boundaries of algorithms and data structures across various competitive arenas.
+            Competitive programming is where I sharpen speed, clarity, and problem-solving depth outside product work.
           </p>
         </motion.div>
 
-        {/* Cards Grid - Flex wrap for centering last row */}
         <div className="flex flex-wrap justify-center gap-6">
-          {platforms.map((platform, index) => (
+          {competitivePlatforms.map((platform, index) => {
+            const PlatformIcon = iconMap[platform.iconKey];
+
+            return (
             <motion.a
               key={platform.name}
               href={platform.link}
@@ -118,25 +83,22 @@ const CompetitiveProgramming = () => {
               viewport={{ once: false }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              {/* Hover Gradient Overlay */}
-              <div 
+              <div
                 className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300"
                 style={{ background: `linear-gradient(135deg, ${platform.color}, transparent)` }}
               />
 
               <div className="relative z-10 flex flex-col h-full">
-                {/* Header: Icon & Arrow */}
                 <div className="flex justify-between items-start mb-6">
-                  <div 
+                  <div
                     className="p-3 rounded-xl bg-white/5 border border-white/10 group-hover:scale-110 transition-transform duration-300"
                     style={{ color: platform.color }}
                   >
-                    <platform.icon className="text-3xl" />
+                    <PlatformIcon className="text-3xl" />
                   </div>
                   <FiExternalLink className="text-white/40 group-hover:text-white transition-colors" />
                 </div>
 
-                {/* Content */}
                 <div className="mt-auto">
                   <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors">
                     {platform.name}
@@ -150,7 +112,7 @@ const CompetitiveProgramming = () => {
                 </div>
               </div>
             </motion.a>
-          ))}
+          )})}
         </div>
       </div>
     </section>

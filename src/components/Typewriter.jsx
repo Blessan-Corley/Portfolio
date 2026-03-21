@@ -6,9 +6,6 @@ const Typewriter = ({ text, speed = 80 }) => {
   const intervalRef = useRef(null);
 
   useEffect(() => {
-    console.log("Typing started with text:", text);
-    
-    
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
     }
@@ -21,7 +18,7 @@ const Typewriter = ({ text, speed = 80 }) => {
     const timeoutId = setTimeout(() => {
       intervalRef.current = setInterval(() => {
         if (index.current < text.length) {
-          setDisplayedText((prev) => {
+          setDisplayedText(() => {
             const newText = text.substring(0, index.current + 1);
             return newText;
           });
